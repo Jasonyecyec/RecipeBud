@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Nunito+Sans:wght@300;400;600;700&display=swap"
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/86dc2a589d.js" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -29,7 +29,7 @@
             <div class="navbar-icon">
                 <img src="images/seach-icon.png" alt="seach-icon" id="btn-search-home">
                 <img src="images/bookmark-icon.png" alt="bookmark-icon">
-                <img src="images/hamburger-icon.png" alt="hamburger-icon">
+                <img src="images/hamburger-icon.png" alt="hamburger-icon" id="btn-hamburger-home">
             </div>
         </div>
     </nav>
@@ -53,24 +53,44 @@
 
     </section>
 
-    <!-- search section -->
+    <!-- search mobile section -->
     <section>
-        <div class="search-container">
+        <div class="search-container hide">
+            <div class="search-sub-container">
+                <div>
+                    <i class="fa fa-solid fa-arrow-left search-icon leave-search"></i>
+                </div>
 
+                <div class="search-input-mobile-container">
+                    <input type="text" class="search-input-mobile" placeholder="Search recipes">
+                    <i class="bi bi-search search-icon"></i>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Hamburger section -->
+    <!-- Hamburger mobile section -->
+    <section>
+        <div class="hamburger-container hide-hamburger">
+            <img src="images/close.png" alt="close" class="close-hamburger">
+
+            <div class="hamburger-sub-container">
+                <p class="hamburger-choice hide-hamburger-choice"><img src="images/addNotes.png" alt=""
+                        class="hamburger-choice-icon"> ADD
+                    RECIPE </p>
+                <p class="hamburger-choice hide-hamburger-choice"><img src="images/cart.png" alt=""
+                        class="hamburger-choice-icon">SHOPPING
+                    LIST</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookmarks mobile section -->
     <section>
 
     </section>
 
-    <!-- Bookmarks section -->
-    <section>
-
-    </section>
-
-    <!-- shopping list section -->
+    <!-- shopping list mobile section -->
     <section>
 
     </section>
