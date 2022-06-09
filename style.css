@@ -16,7 +16,11 @@ html {
     --grey-bg: #F1F0F0;
     --cream: #FEFAE0;
     --details: #BC6C25;
+    --list: #EAE7E7;
+    --selected: #E5E0E0;
+
 }
+
 
 /* ------------- NAVIGATION MENU ------------ */
 .navbar {
@@ -107,7 +111,7 @@ html {
 
 /*------------------ SEARCH MOBILE -------------*/
 .search-container {
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
     position: absolute;
     top: 0;
@@ -157,11 +161,94 @@ html {
     transform: translateY(-2px);
 }
 
-/* ----------------- HAMBURGER SECTION ---------- */
+/* -------------- BOOKMARK MOBILE ---------------- */
+.bookmark-mobile-container {
+    background-color: var(--grey-bg);
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    overflow-y: scroll;
+    top: 0;
+    right: 0;
+    opacity: 1;
+    transition: 500ms ease-in-out;
+
+}
+
+.bookmark-list-container {
+    background-color: var(--list);
+    margin-top: 3rem;
+}
+
+
+.close-bookmark-mobile {
+    width: 2rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.bookmark-icon {
+    width: 2rem;
+    margin-right: .5rem;
+}
+
+.bookmark-mobile-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-top: 8rem;
+    box-sizing: border-box;
+}
+
+.bookmark-list {
+    position: relative;
+    box-sizing: border-box;
+    padding: 2em;
+    display: grid;
+    border-bottom: .2px solid rgb(186, 184, 184);
+    grid-template-areas:
+        'recipe-image recipe-name recipe-name'
+        'recipe-image recipe-site recipe-site';
+}
+
+.bookmark-list:hover {
+    background-color: var(--selected);
+}
+
+.delete-bookmark {
+    position: absolute;
+    width: 2rem;
+    right: 0;
+    top: 0;
+}
+
+.bookmark-food-sample {
+    display: inline-block;
+    margin: auto;
+    grid-area: recipe-image;
+    width: 4.5rem;
+}
+
+.recipe-name {
+    margin: 0;
+    font-weight: 650;
+    grid-area: recipe-name;
+}
+
+.recipe-site {
+    margin: 0;
+    color: var(--details);
+    grid-area: recipe-site;
+}
+
+/* ----------------- HAMBURGER MOBILE SECTION ---------- */
 .hamburger-container {
     background-color: var(--grey-bg);
     box-sizing: border-box;
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
     position: absolute;
     top: 0;
@@ -187,7 +274,7 @@ html {
 }
 
 .hamburger-choice:hover {
-    background-color: #E5E0E0;
+    background-color: var(--selected);
 
 }
 
@@ -228,12 +315,17 @@ html {
     display: none;
 }
 
-.hide-hamburger {
+.hide-container {
     opacity: 0;
     transform: translateX(50rem);
 }
 
-.hide-hamburger-choice {
+.hide-container-choice {
     opacity: 0;
     transform: translateX(1rem);
+}
+
+.removeBookmark {
+    transform: translateX(-30rem);
+    transition: 300ms ease-in-out;
 }
