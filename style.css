@@ -4,11 +4,15 @@ body {
     box-sizing: border-box;
     font-family: 'Nunito Sans', sans-serif;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+
+
 }
 
 html {
-    overflow: hidden;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
 }
 
 :root {
@@ -21,6 +25,10 @@ html {
 
 }
 
+.overflow-container {
+    /* overflow-x: hidden; */
+    /* overflow-y: hidden; */
+}
 
 /* ------------- NAVIGATION MENU ------------ */
 .navbar {
@@ -89,12 +97,86 @@ html {
     margin: 0 .5rem;
 }
 
-.navbar-icon img:hover {
+.navbar-icon img:active {
     transform: translateY(-3px);
     transition: 300ms ease-in-out;
 }
 
+
 /* ------------------- HEADER ----------------- */
+.recipe-mobile-scroll-container {
+    box-sizing: border-box;
+    background-color: #c7bcb0;
+    height: 18vh;
+    display: grid;
+    grid-auto-flow: column;
+    overflow-x: scroll;
+    grid-auto-columns: 35%;
+    scroll-behavior: smooth;
+
+    -webkit-box-shadow: 2px 4px 21px -7px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 4px 21px -7px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 4px 21px -7px rgba(0, 0, 0, 0.75);
+}
+
+.recipe-container {
+    max-height: 100%;
+    background-color: #FFFCFC;
+    border-right: .2px solid rgb(231, 228, 228);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.recipe-container:active {
+    background-color: var(--selected);
+}
+
+
+.recipe-mobile-name {
+    font-weight: 700;
+    margin-bottom: 0;
+    font-size: .8rem;
+}
+
+.recipe-mobile-site {
+    font-size: .65rem;
+    margin-top: .3rem;
+    margin-bottom: 1rem;
+    color: var(--details);
+}
+
+.recipe-mobile-image {
+    width: 4.5rem;
+}
+
+.fa-chevron-right,
+.fa-chevron-left {
+    color: #9f9c99;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 8rem;
+}
+
+.fa-chevron-right {
+    right: .3rem;
+}
+
+.recipe-banner-container {
+    background-color: #DDA15E;
+    height: 10rem;
+    margin-bottom: 1rem;
+}
+
+.recipe-banner-image {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+    opacity: 0.7;
+}
+
 
 /* ------------------ MAIN -------------------- */
 .no-search-container {
@@ -109,15 +191,147 @@ html {
     font-size: 1.5rem;
 }
 
+.no-click-container {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.no-click-text {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.fa-check {
+    color: var(--details);
+    margin-right: .5rem;
+}
+
+.recipe-ingredients-title {
+    text-align: center;
+    font-weight: 650;
+    margin-bottom: .5rem;
+}
+
+.recipe-ingredients-container {
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.recipe-ingredients-container-list ul {
+    box-sizing: border-box;
+    padding: .5em;
+    padding-left: 1.5em;
+    column-width: 50%;
+    column-count: 2;
+
+}
+
+.recipe-ingredients-list {
+    list-style: none;
+    line-height: 2rem;
+    font-size: .95rem;
+}
+
+.add-shopping-list-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.add-shopping-list-button {
+    font-family: 'Nunito Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    color: var(--cream);
+    background-color: var(--btn-bg-color);
+    border-radius: 5em;
+    box-sizing: border-box;
+    margin-top: .5rem;
+    border: none;
+    padding: .8em 1.5em;
+    margin-left: 10rem;
+
+}
+
+.add-shopping-list-button:hover {
+    cursor: pointer;
+}
+
+.btn-cart-icon {
+    color: var(--cream);
+    width: 1rem;
+    margin-left: .5rem;
+}
+
+.recipe-cooking-minutes-container {
+    /* background-color: #E5E0E0; */
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 1em;
+    justify-content: space-around;
+    width: 100%;
+    height: 10rem;
+    font-size: 1rem;
+}
+
+.recipe-cooking-minutes-container p {
+    display: flex;
+    align-items: center;
+}
+
+.serving-time-icon,
+.serving-people-icon {
+    width: 1.5rem;
+    margin-right: .3rem;
+}
+
+.serving-button {
+    outline: none;
+    border: .8px solid black;
+    background-color: transparent;
+    /* padding: .1em .1em; */
+    /* font-weight: ; */
+    border-radius: 1em;
+    margin: .2rem;
+}
+
+.serving-time,
+.serving-people {
+    margin-right: .3rem;
+}
+
+.btn-add-bookmark {
+    box-sizing: border-box;
+    padding: 1em;
+    background-color: var(--btn-bg-color);
+    outline: none;
+    border: none;
+    border-radius: 50%;
+
+}
+
+.btn-add-bookmark img {
+    width: 1.5rem;
+}
+
 /*------------------ SEARCH MOBILE -------------*/
 .search-container {
     height: 100vh;
     width: 100%;
     position: absolute;
     top: 0;
+    left: 0;
     background-color: white;
     box-sizing: border-box;
     padding: 1.5em;
+    overflow-x: hidden;
+    transition: 300ms ease-in-out;
 }
 
 .search-sub-container {
@@ -157,8 +371,31 @@ html {
     transition: 300ms ease-in-out;
 }
 
-.bi-search:hover {
+.bi-search:active {
     transform: translateY(-2px);
+}
+
+.tooltip-mobile {
+    margin: 0;
+    top: 4rem;
+    left: 0;
+    position: absolute;
+    background-color: var(--selected);
+    border-radius: 1em;
+    padding: .1em .8em;
+    opacity: 1;
+    transition: 1s ease-in-out;
+
+}
+
+.tooltip-mobile::before {
+    content: "";
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid var(--selected);
+    position: absolute;
+    top: -.8rem;
+    left: 1rem;
 }
 
 /* -------------- BOOKMARK MOBILE ---------------- */
@@ -172,8 +409,7 @@ html {
     top: 0;
     right: 0;
     opacity: 1;
-    transition: 500ms ease-in-out;
-
+    transition: 300ms ease-in-out;
 }
 
 .bookmark-list-container {
@@ -214,7 +450,7 @@ html {
         'recipe-image recipe-site recipe-site';
 }
 
-.bookmark-list:hover {
+.bookmark-list:active {
     background-color: var(--selected);
 }
 
@@ -254,7 +490,7 @@ html {
     top: 0;
     right: 0;
     opacity: 1;
-    transition: 500ms ease-in-out;
+    transition: 300ms ease-in-out;
 }
 
 .hamburger-sub-container {
@@ -273,7 +509,7 @@ html {
 
 }
 
-.hamburger-choice:hover {
+.hamburger-choice:active {
     background-color: var(--selected);
 
 }
@@ -317,7 +553,7 @@ html {
 
 .hide-container {
     opacity: 0;
-    transform: translateX(50rem);
+    transform: translateX(30rem);
 }
 
 .hide-container-choice {
