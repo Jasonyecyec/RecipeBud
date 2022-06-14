@@ -36,16 +36,110 @@
 
     <!-- list of recipe and recipe image -->
     <header>
+        <div class="recipe-mobile-scroll-container">
+            <i class="fa fa-solid fa-chevron-left hide"></i>
+            <i class="fa fa-solid fa-chevron-right"></i>
+
+            <div class="recipe-container">
+                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
+                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
+                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
+            </div>
+
+            <div class="recipe-container">
+                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
+                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
+                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
+            </div>
+
+            <div class="recipe-container">
+                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
+                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
+                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
+            </div>
+
+            <div class="recipe-container">
+                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
+                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
+                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
+            </div>
+
+            <div class="recipe-container">
+                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
+                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
+                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
+            </div>
+
+            <div class="recipe-container">
+                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
+                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
+                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
+            </div>
+        </div>
+
+        <!---------- FOOD IMAGE ------------->
+        <div class="recipe-banner-container">
+            <img src="images/food-sample2.png.png" alt="food-sample2" class="recipe-banner-image">
+        </div>
 
     </header>
 
     <!-- recipe ingredients and buttons  -->
     <main>
         <!-- if hasn't search anything -->
-        <div class="no-search-container">
+        <!-- <div class="no-search-container hide">
             <p class="no-search-text">Start by searching for a recipe </br> or an ingredient. Have fun!</p>
+        </div> -->
+
+        <!-- if hasn't click anything -->
+        <div class="no-click-container hide">
+            <p class="no-click-text">Click to see the recipe </br> or ingredients.</p>
         </div>
 
+        <!----- RECIPE INGREDIENT ------>
+        <div class="recipe-ingredients-container">
+            <!-- recipe ingredients title -->
+            <p class="recipe-ingredients-title">RECIPE INGREDIENTS</p>
+
+            <!-- recipe ingredients list -->
+            <div class="recipe-ingredients-container-list">
+                <ul>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 can pumpkin puree</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 cup vegetable oil</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>2 tsps pure vanilla extract
+                    </li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>3 1/2 cups all-purpose flour
+                    </li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
+                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
+
+                </ul>
+            </div>
+
+            <!-- add to shopping list button -->
+            <div class="add-shopping-list-container">
+                <button class="add-shopping-list-button">Add to shopping list <img src="images/btn-cart-icon.png"
+                        alt="cart" class="btn-cart-icon"></button>
+            </div>
+
+            <!-- cooking minutes,servings,add bookmark  -->
+            <div class="recipe-cooking-minutes-container">
+                <p><img src="images/serving-time-icon.png" alt="serving-time-icon" class="serving-time-icon"><span
+                        class="serving-time"><b>30</b></span> Minutes</p>
+
+                <p><img src="images/serving-people-icon.png" alt="serving-people-icon" class="serving-people-icon"><span
+                        class="serving-people"><b>5</b></span> Serving
+                    <button class="serving-button">-</button> <button class="serving-button">+</button>
+                </p>
+                <button class="btn-add-bookmark"><img src="images/add-to-bookmark.png"
+                        alt="add-to-bookmark-icon"></button>
+            </div>
+        </div>
     </main>
 
     <!-- How to cook it Section  -->
@@ -63,7 +157,11 @@
 
                 <div class="search-input-mobile-container">
                     <input type="text" class="search-input-mobile" placeholder="Search recipes">
-                    <i class="bi bi-search search-icon"></i>
+                    <i class="bi bi-search search-icon btn-search-mobile"></i>
+
+                    <div class="tooltip-mobile hide">
+                        <p>Please input some text</p>
+                    </div>
                 </div>
             </div>
         </div>
