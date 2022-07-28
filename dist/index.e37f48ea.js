@@ -533,6 +533,7 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
 var _searchViewMobileJs = require("./views/searchViewMobile.js");
@@ -547,7 +548,6 @@ var _addRecipeMobileViewJs = require("./views/addRecipeMobileView.js");
 var _addRecipeMobileViewJsDefault = parcelHelpers.interopDefault(_addRecipeMobileViewJs);
 var _shoppingListMobileViewJs = require("./views/shoppingListMobileView.js");
 var _shoppingListMobileViewJsDefault = parcelHelpers.interopDefault(_shoppingListMobileViewJs);
-var _modelJs = require("./model.js");
 var _lodash = require("../../node_modules/lodash");
 var _lodashDefault = parcelHelpers.interopDefault(_lodash);
 "use strict";
@@ -589,6 +589,7 @@ const controlRecipes = async function() {
         //update results view to mark selected search result
         if (_modelJs.state.search.query) (0, _resultsViewJsDefault.default).update(_modelJs.state.search.results);
         (0, _bookmarksViewJsDefault.default).update(_modelJs.state.bookmarks);
+        (0, _shoppingListMobileViewJsDefault.default).update(_modelJs.state.shoppingList);
         //load  recipe
         await _modelJs.loadRecipe(id);
         //render recipe
@@ -667,11 +668,13 @@ const bookmarkMobileAction = function(dataId) {
     (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
 const bookmarksRender = function() {
+    console.log(_modelJs.state.bookmarks);
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
     if ((0, _lodashDefault.default).isEmpty(_modelJs.state.bookmarks)) (0, _bookmarksViewJsDefault.default).renderMessage();
 };
 const shoppingListMobileRender = function() {
-    (0, _shoppingListMobileViewJsDefault.default).render(_modelJs.state.bookmarks);
+    console.log(_modelJs.state.shoppingList);
+    (0, _shoppingListMobileViewJsDefault.default).render(_modelJs.state.shoppingList);
     if ((0, _lodashDefault.default).isEmpty(_modelJs.state.shoppingList)) (0, _shoppingListMobileViewJsDefault.default).renderMessage();
 };
 const controlAddRecipe = async function(data) {
@@ -1748,9 +1751,14 @@ const loadRecipe = async function(recipeId) {
         //if the current recipe object is in 'BOOKMARK ARRAY' set 'BOOKMARKED' to TRUE else FALSE
         if (state.bookmarks.some((bookmark)=>bookmark.id === recipeId)) state.recipe.bookmarked = true;
         else state.recipe.bookmarked = false;
-        // if the current recipe object is in 'SHOPPING LIST ARRAY' set 'ADDED TO LIST' to TRUE else FALSE
-        if (state.shoppingList.some((list)=>list.id === recipeId)) state.recipe.addedToList = true;
-        else state.recipe.addedToList = false;
+        //if the current recipe object is in 'SHOPPINGLIST ARRAY' set 'addedToList' to TRUE else FALSE
+        state.recipe.addedToList = false;
+        if (state.shoppingList.length > 0) state.shoppingList.forEach((list)=>{
+            if (list.id === recipeId) {
+                state.recipe.addedToList = true;
+                return;
+            }
+        });
     } catch (error) {
         throw error;
     }
@@ -1824,6 +1832,7 @@ const deleteBookmark = function(id) {
 };
 const clearLocalStorage = function() {
     localStorage.clear("bookmarks");
+    localStorage.clear("shoppingList");
 };
 const init = function() {
     //fetching item from localstorage on initialization
@@ -1831,9 +1840,8 @@ const init = function() {
     const storage2 = localStorage.getItem("shoppingList");
     //if has data, parse into array of objects then set to 'state.bookmarks'
     if (storage) state.bookmarks = JSON.parse(storage);
-    if (storage2) state.shoppingList = JSON.parse(storage);
+    if (storage2) state.shoppingList = JSON.parse(storage2);
 };
-init();
 const checkURL = function(url) {
     regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
     if (!regexp.test(url[1])) return url;
@@ -1887,6 +1895,7 @@ const uploadRecipe = async function(newRecipe) {
         throw error;
     }
 };
+init();
 
 },{"./config.js":"k5Hzs","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

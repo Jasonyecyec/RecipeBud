@@ -41,13 +41,16 @@ export const loadRecipe = async function (recipeId) {
       state.recipe.bookmarked = false;
     }
 
-    // if the current recipe object is in 'SHOPPING LIST ARRAY' set 'ADDED TO LIST' to TRUE else FALSE
+    //if the current recipe object is in 'SHOPPINGLIST ARRAY' set 'addedToList' to TRUE else FALSE
+    state.recipe.addedToList = false;
+
     if (state.shoppingList.length > 0) {
-      if (state.shoppingList.some((list) => list.id === recipeId)) {
-        state.recipe.addedToList = true;
-      } else {
-        state.recipe.addedToList = false;
-      }
+      state.shoppingList.forEach((list) => {
+        if (list.id === recipeId) {
+          state.recipe.addedToList = true;
+          return;
+        }
+      });
     }
   } catch (error) {
     throw error;
@@ -160,6 +163,7 @@ export const deleteBookmark = function (id) {
 
 const clearLocalStorage = function () {
   localStorage.clear("bookmarks");
+  localStorage.clear("shoppingList");
 };
 
 const init = function () {
@@ -173,11 +177,9 @@ const init = function () {
   }
 
   if (storage2) {
-    state.shoppingList = JSON.parse(storage);
+    state.shoppingList = JSON.parse(storage2);
   }
 };
-
-init();
 
 const checkURL = function (url) {
   regexp =
@@ -256,3 +258,5 @@ export const uploadRecipe = async function (newRecipe) {
     throw error;
   }
 };
+
+init();
