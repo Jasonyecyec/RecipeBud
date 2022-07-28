@@ -1,0 +1,27 @@
+{
+  "name": "recipebud",
+  "version": "1.0.0",
+  "description": "Recipe website",
+  "default": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jasonyecyec/RecipeBud.git"
+  },
+  "author": "Jason Yecyec",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jasonyecyec/RecipeBud/issues"
+  },
+  "homepage": "https://github.com/Jasonyecyec/RecipeBud#readme",
+  "dependencies": {
+    "fracty": "^1.0.11",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "parcel": "^2.6.2"
+  }
+}
