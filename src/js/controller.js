@@ -1,4 +1,5 @@
 "use strict";
+import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
 import searchViewMobile from "./views/searchViewMobile.js";
 import navbarMobileActionView from "./views/navbarMobileActionView.js";
@@ -7,7 +8,6 @@ import resultsView from "./views/resultsView.js";
 import bookmarksView from "./views/bookmarksView.js";
 import addRecipeMobileView from "./views/addRecipeMobileView.js";
 import shoppingListMobileView from "./views/shoppingListMobileView.js";
-import * as model from "./model.js";
 import _ from "../../node_modules/lodash";
 
 const searchContainer = document.querySelector(".search-container ");
@@ -67,6 +67,7 @@ const controlRecipes = async function () {
       resultsView.update(model.state.search.results);
     }
     bookmarksView.update(model.state.bookmarks);
+    shoppingListMobileView.update(model.state.shoppingList);
 
     //load  recipe
     await model.loadRecipe(id);
@@ -185,6 +186,7 @@ const bookmarkMobileAction = function (dataId) {
 };
 
 const bookmarksRender = function () {
+  console.log(model.state.bookmarks);
   bookmarksView.render(model.state.bookmarks);
 
   if (_.isEmpty(model.state.bookmarks)) {
@@ -193,7 +195,8 @@ const bookmarksRender = function () {
 };
 
 const shoppingListMobileRender = function () {
-  shoppingListMobileView.render(model.state.bookmarks);
+  console.log(model.state.shoppingList);
+  shoppingListMobileView.render(model.state.shoppingList);
 
   if (_.isEmpty(model.state.shoppingList)) {
     shoppingListMobileView.renderMessage();
