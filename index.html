@@ -13,7 +13,7 @@
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/86dc2a589d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/style.css">
 
 </head>
 
@@ -22,130 +22,66 @@
     <nav>
         <div class="navbar">
             <div class="logo-brandname">
-                <img src="images/Recipebud-logo.png" alt="RecipeBud" class="logo">
+                <img src="src/img/Recipebud-logo.png" alt="RecipeBud" class="logo">
                 <p class="brand-name">RecipeBud</p>
+
+                <label class="navigation-searchbar-container" for="searchbar-nav">
+                    <input type="text" class="searchbar-input" placeholder="Search recipes" id="searchbar-nav">
+                    <button class="searchbar-btn"><img src="src/img/navigation-search-icon.png" alt=""></button>
+                </label>
+
             </div>
 
             <div class="navbar-icon">
-                <img src="images/seach-icon.png" alt="seach-icon" class="btn-search-home">
-                <img src="images/bookmark-icon.png" alt="bookmark-icon" class="btn-bookmark-home">
-                <img src="images/hamburger-icon.png" alt="hamburger-icon" class="btn-hamburger-home">
+                <img src="src/img/seach-icon.png" alt="seach-icon" class="btn-search-home">
+                <img src="src/img/bookmark-icon.png" alt="bookmark-icon" class="btn-bookmark-home">
+                <img src="src/img/hamburger-icon.png" alt="hamburger-icon" class="btn-hamburger-home">
+            </div>
+
+            <div class="navigation-menu-container">
+                <p class="navigation-menu-list add-recipe-menu"><img src="src/img/add-to-recipe.png" alt="add-to-recipe"
+                        class="navigation-menu-icon"> ADD RECIPE</p>
+
+                <p class="bookmark-hover navigation-menu-list"><img src="src/img/add-to-bookmark.png"
+                        alt="add-to-bookmark" class="navigation-menu-icon ">BOOKMARKS
+                </p>
+                <p class="navigation-menu-list shopping-list-menu"><img src="src/img/btn-cart-icon.png"
+                        alt="add-to-recipe" class="navigation-menu-icon">SHOPPING LIST
+                </p>
+
+                <!-- Render in javascript -->
+                <div id="bookmark-hover-container">
+
+                </div>
+
             </div>
         </div>
     </nav>
 
     <!-- list of recipe and recipe image -->
     <header>
-        <div class="recipe-mobile-scroll-container">
-            <i class="fa fa-solid fa-chevron-left hide"></i>
-            <i class="fa fa-solid fa-chevron-right"></i>
+        <div class="recipe-mobile-scroll-container hide">
 
-            <div class="recipe-container">
-                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
-                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
-                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
-            </div>
 
-            <div class="recipe-container">
-                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
-                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
-                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
-            </div>
-
-            <div class="recipe-container">
-                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
-                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
-                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
-            </div>
-
-            <div class="recipe-container">
-                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
-                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
-                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
-            </div>
-
-            <div class="recipe-container">
-                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
-                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
-                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
-            </div>
-
-            <div class="recipe-container">
-                <p class="recipe-mobile-name">PUMPKIN BREAD</p>
-                <p class="recipe-mobile-site"> MY BAKING ADDICTION</p>
-                <img src="images//food-sample.png" alt="" class="recipe-mobile-image">
-            </div>
         </div>
-
-        <!---------- FOOD IMAGE ------------->
-        <div class="recipe-banner-container">
-            <img src="images/food-sample2.png.png" alt="food-sample2" class="recipe-banner-image">
-        </div>
-
     </header>
 
-    <!-- recipe ingredients and buttons  -->
-    <main>
+
+    <div id="parent-element">
         <!-- if hasn't search anything -->
-        <!-- <div class="no-search-container hide">
-            <p class="no-search-text">Start by searching for a recipe </br> or an ingredient. Have fun!</p>
-        </div> -->
+        <div class="no-search-container ">
+            <p class="no-search-text">😊 Start by searching for a recipe </br> or an ingredient. Have fun!</p>
+        </div>
 
         <!-- if hasn't click anything -->
         <div class="no-click-container hide">
             <p class="no-click-text">Click to see the recipe </br> or ingredients.</p>
         </div>
 
-        <!----- RECIPE INGREDIENT ------>
-        <div class="recipe-ingredients-container">
-            <!-- recipe ingredients title -->
-            <p class="recipe-ingredients-title">RECIPE INGREDIENTS</p>
+        <!-- if error message -->
 
-            <!-- recipe ingredients list -->
-            <div class="recipe-ingredients-container-list">
-                <ul>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 can pumpkin puree</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 cup vegetable oil</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>2 tsps pure vanilla extract
-                    </li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>3 1/2 cups all-purpose flour
-                    </li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
-                    <li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>1 1/2tsps kosher salt</li>
 
-                </ul>
-            </div>
-
-            <!-- add to shopping list button -->
-            <div class="add-shopping-list-container">
-                <button class="add-shopping-list-button">Add to shopping list <img src="images/btn-cart-icon.png"
-                        alt="cart" class="btn-cart-icon"></button>
-            </div>
-
-            <!-- cooking minutes,servings,add bookmark  -->
-            <div class="recipe-cooking-minutes-container">
-                <p><img src="images/serving-time-icon.png" alt="serving-time-icon" class="serving-time-icon"><span
-                        class="serving-time"><b>30</b></span> Minutes</p>
-
-                <p><img src="images/serving-people-icon.png" alt="serving-people-icon" class="serving-people-icon"><span
-                        class="serving-people"><b>5</b></span> Serving
-                    <button class="serving-button">-</button> <button class="serving-button">+</button>
-                </p>
-                <button class="btn-add-bookmark"><img src="images/add-to-bookmark.png"
-                        alt="add-to-bookmark-icon"></button>
-            </div>
-        </div>
-    </main>
-
-    <!-- How to cook it Section  -->
-    <section>
-
-    </section>
+    </div>
 
     <!-- search mobile section -->
     <section>
@@ -156,13 +92,114 @@
                 </div>
 
                 <div class="search-input-mobile-container">
-                    <input type="text" class="search-input-mobile" placeholder="Search recipes">
-                    <i class="bi bi-search search-icon btn-search-mobile"></i>
+                    <form action="" class="search-mobile-parent">
+                        <input type="text" class="search-input-mobile" placeholder="Search recipes">
+                        <button class="bi-search btn-search-mobile"><i class="bi  search-icon "></i></button>
 
-                    <div class="tooltip-mobile hide">
-                        <p>Please input some text</p>
-                    </div>
+                        <div class="tooltip-mobile hide">
+                            <p>Please input some text</p>
+                        </div>
+                    </form>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add recipe mobile section -->
+    <section>
+        <div class="add-recipe-container hide-container">
+            <i class="fa fa-solid fa-arrow-left leave-add-recipe-icon"></i>
+            <img src="src/img/close.png" alt="close" class="close-add-recipe-mobile">
+
+            <div class="recipe-sub-container">
+
+                <form action="" class="add-recipe-form">
+                    <div class="recipe-data-container">
+                        <p class="add-recipe-header">RECIPE DATA</p>
+
+                        <div class="input-container">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" name="title" required>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="sourceUrl">URL</label>
+                            <input type="text" id="sourceUrl" name="sourceUrl" required>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="image">Image URL</label>
+                            <input type="text" id="image" name="image" required>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="publisher">Publisher</label>
+                            <input type="text" id="publisher" name="publisher" required>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="cooking-time">Cooking time</label>
+                            <input type="number" id="cooking-time" name="cookingTime" required>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="servings">Servings</label>
+                            <input type="number" id="servings" name="servings" required>
+                        </div>
+                    </div>
+
+                    <div class="ingredients-container">
+                        <p class="add-recipe-header">INGREDIENTS</p>
+
+                        <div class="input-container">
+                            <label for="ingredient1">Ingredient 1</label>
+                            <input type="text" id="ingredient1" name="ingredient-1"
+                                placeholder="Format: Quantity, Unit, Description" required>
+                        </div>
+
+                        <div class="input-container">
+                            <label for="ingredient2">Ingredient 2</label>
+                            <input type="text" id="ingredient2" name="ingredient-2">
+                        </div>
+
+                        <div class="input-container">
+                            <label for="ingredient3">Ingredient 3</label>
+                            <input type="text" id="ingredient3" name="ingredient-3">
+                        </div>
+
+                        <div class="input-container">
+                            <label for="ingredient4">Ingredient 4</label>
+                            <input type="text" id="ingredient4" name="ingredient-4">
+                        </div>
+
+                        <div class="input-container">
+                            <label for="ingredient5">Ingredient 5</label>
+                            <input type="text" id="ingredient5" name="ingredient-5">
+                        </div>
+
+                        <div class="input-container">
+                            <label for="ingredient6">Ingredient 6</label>
+                            <input type="text" id="ingredient6" name="ingredient-6">
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="control-ingredient-container">
+                        <p class="control-ingredients add-ingredients">Add +</p>
+
+                        <p class="control-ingredients delete-ingredients hide">Delete -</p>
+                    </div>
+
+
+                    <button class="upload-recipe-btn" type="submit"><img src="src/img/add-upload-btn.png" alt=""
+                            class="add-upload-btn-icon"> UPLOAD</button>
+                </form>
+            </div>
+
+            <div class="add-recipe-message-container">
+
             </div>
         </div>
     </section>
@@ -170,14 +207,15 @@
     <!-- Hamburger mobile section -->
     <section>
         <div class="hamburger-container hide-container">
-            <img src="images/close.png" alt="close" class="close-hamburger">
+            <img src="src/img/close.png" alt="close" class="close-hamburger">
+
 
             <div class="hamburger-sub-container">
-                <p class="hamburger-choice hide-container-choice"><img src="images/addNotes.png" alt=""
+                <p class="hamburger-choice add-recipe hide-container-choice"><img src="src/img/addNotes.png" alt=""
                         class="hamburger-choice-icon"> ADD
                     RECIPE </p>
-                <p class="hamburger-choice hide-container-choice"><img src="images/cart.png" alt=""
-                        class="hamburger-choice-icon">SHOPPING
+                <p class="hamburger-choice hide-container-choice shopping-list-mobile"><img src="src/img/cart.png"
+                        alt="" class="hamburger-choice-icon">SHOPPING
                     LIST</p>
             </div>
         </div>
@@ -186,9 +224,9 @@
     <!-- Bookmarks mobile section -->
     <section>
         <div class="bookmark-mobile-container hide-container">
-            <img src="images/close.png" alt="close" class="close-bookmark-mobile">
+            <img src="src/img/close.png" alt="close" class="close-bookmark-mobile">
 
-            <p class="bookmark-mobile-text"><img src="images/bookmark-icon.png" alt="bookmark-choice-icon"
+            <p class="bookmark-mobile-text"><img src="src/img/bookmark-icon.png" alt="bookmark-choice-icon"
                     class="bookmark-icon"> BOOKMARKS
             </p>
 
@@ -198,21 +236,110 @@
         </div>
     </section>
 
-    <!-- shopping list mobile section -->
+    <!-- shopping list mobile & desktop section -->
     <section>
+        <div class="shopping-list-section hide-container">
+            <i class="fa fa-solid fa-arrow-left leave-shopping-list-icon"></i>
+            <img src="src/img/close.png" alt="close" class="close-shopping-list-mobile">
 
+            <p class="shopping-list-mobile-text"><img src="src/img/cart.png" alt="bookmark-choice-icon"
+                    class="shopping-list-icon">
+                SHOPPING LIST
+            </p>
+
+            <div class="shopping-list-container ">
+
+
+            </div>
+        </div>
+
+        <div class="shopping-list-desktop-section  hideVisibility">
+
+            <div class="shopping-list-desktop-container hide-shopping-list">
+                <img src="src/img/shopping-list-desktop-close.png" alt="shopping-list-desktop-close"
+                    class="close-shoppinglist-desktop">
+                <p class="shopping-list-desktop-text"> <img src="src/img/cart.png" alt="cart"
+                        class="shopping-list-desktop-icon">SHOPPING LIST</p>
+
+                <div class="shopping-list-desktop-wrapper">
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+
+                    <div class="desktop-shopping-list">
+                        <img src="src/img/delete-bookmark.png" alt="delete-bookmark" class="delete-shopping-list">
+                        <img src="src/img/food-sample2.png.png" alt="food-sample" class="shopping-list-food-sample">
+                        <p class="recipe-name">PUMPKIN BREADF</p>
+                        <p class="recipe-site">MY BAKING ADDICTION</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
         <div class="footer-container">
-            <p>© Copyright by Jason Yecyec.</p>
+            <p class="footer-copyright">© All rights reserved.</p>
             <p class="footer-inspired-text">Inspired by Jonas Schmedtmann, forkify website.</p>
         </div>
     </footer>
 
     <!-- SCRIPT -->
-    <script src="script.js"></script>
+    <script type="module" src="src/js/controller.js"></script>
 </body>
 
 </html>
