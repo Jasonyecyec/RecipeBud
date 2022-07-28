@@ -42,10 +42,12 @@ export const loadRecipe = async function (recipeId) {
     }
 
     // if the current recipe object is in 'SHOPPING LIST ARRAY' set 'ADDED TO LIST' to TRUE else FALSE
-    if (state.shoppingList.some((list) => list.id === recipeId)) {
-      state.recipe.addedToList = true;
-    } else {
-      state.recipe.addedToList = false;
+    if (state.shoppingList.length > 0) {
+      if (state.shoppingList.some((list) => list.id === recipeId)) {
+        state.recipe.addedToList = true;
+      } else {
+        state.recipe.addedToList = false;
+      }
     }
   } catch (error) {
     throw error;
