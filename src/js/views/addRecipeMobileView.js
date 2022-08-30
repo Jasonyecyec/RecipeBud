@@ -1,4 +1,4 @@
-import DocumentView from "./documentView";
+import DocumentView from "./documentView.js";
 
 class AddRecipeMobileView extends DocumentView {
   _parentElement = document.querySelector(".add-recipe-container");

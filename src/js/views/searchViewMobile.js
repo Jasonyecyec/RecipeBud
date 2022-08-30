@@ -1,4 +1,4 @@
-import DocumentView from "./documentView";
+import DocumentView from "./documentView.js";
 
 class SearchViewMobile extends DocumentView {
   _parentElement = document.querySelector(".search-mobile-parent");

@@ -1,4 +1,4 @@
-import DocumentView from "./documentView";
+import DocumentView from "./documentView.js";
 
 class ResultsView extends DocumentView {
   _parentElement = document.querySelector(".recipe-mobile-scroll-container");
@@ -34,8 +34,8 @@ class ResultsView extends DocumentView {
   }
 
   observer() {
-    const leftBtnScrollMobile = document.querySelector(".fa-chevron-left");
-    const rightBtnScrollMobile = document.querySelector(".fa-chevron-right");
+    const leftBtnScrollMobile = document.querySelector(".left-container");
+    const rightBtnScrollMobile = document.querySelector(".right-container");
 
     const firstRecipeCallback = (entries) => {
       entries.forEach((entry) => {
@@ -80,9 +80,9 @@ class ResultsView extends DocumentView {
   _scrollRecipeMobile(e) {
     const scrollContainerWidth = this._parentElement.offsetWidth;
 
-    if (e.target.classList.contains("fa-chevron-right")) {
+    if (e.target.closest(".right-container")) {
       this._recipeMobileScrollRight(screen.width);
-    } else if (e.target.classList.contains("fa-chevron-left")) {
+    } else if (e.target.closest(".left-container")) {
       this._recipeMobileScrollLeft(screen.width);
     }
   }
@@ -105,8 +105,13 @@ class ResultsView extends DocumentView {
   _generateMarkup() {
     const id = window.location.hash.slice(1);
 
-    let markup = `<i class="fa fa-solid fa-chevron-left "></i>
-    <i class="fa fa-solid fa-chevron-right"></i>`;
+    let markup = `<div class="fa-chevron-container left-container">
+        <i class="fa fa-solid fa-chevron-left "></i>
+    </div>
+
+    <div class="fa-chevron-container right-container">
+      <i class="fa fa-solid fa-chevron-right"></i>
+    </div>`;
 
     markup += this._data
       .map((recipe) => {
