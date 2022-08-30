@@ -900,807 +900,7 @@ shoppingListDesktopSection.addEventListener("click", function(e) {
 }); // addToBookmark("food-sample.png", "ARTICHOKE BREAD", "CLOSET COOKING");
  // renderBookmarkList(10);
 
-},{"./views/recipeView.js":"l60JC","./views/searchViewMobile.js":"kcflb","./views/navbarMobileActionView.js":"ck6qJ","./views/resultsView.js":"cSbZE","./views/bookmarksView.js":"4Lqzq","./views/addRecipeMobileView.js":"kVLce","./views/shoppingListMobileView.js":"cLljg","./model.js":"Y4A21","../../node_modules/lodash":"3qBDj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _documentView = require("./documentView");
-var _documentViewDefault = parcelHelpers.interopDefault(_documentView);
-const fracty = require("fracty");
-class RecipeView extends (0, _documentViewDefault.default) {
-    _parentElement = document.querySelector("#parent-element");
-    _errorMessage = "We could not find that recipe. Please try another one!";
-    renderSpinner() {
-        const markup = `<div class="spinner-container">
-    <img src="spinner.svg" alt="spinner" class="spinner">
-</div>`;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    addHandlerRender(handler) {
-        //listen for hashchange and load in url
-        [
-            "hashchange",
-            "load"
-        ].forEach((el)=>{
-            window.addEventListener(el, handler);
-        });
-    }
-    addHandlerUpdateServings(handler) {
-        this._parentElement.addEventListener("click", function(e) {
-            const btn = e.target.closest(".serving-button");
-            //guard clause
-            if (!btn) return;
-            const updateTo = +btn.dataset.updateTo;
-            handler(updateTo);
-        });
-    }
-    addHandlerBookmark(handler) {
-        this._parentElement.addEventListener("click", function(e) {
-            const btn = e.target.closest(".btn-add-bookmark");
-            if (!btn) return;
-            handler();
-        });
-    }
-    addHandlerShoppingList(handler) {
-        this._parentElement.addEventListener("click", function(e) {
-            const btn = e.target.closest(".add-shopping-list-button");
-            if (!btn) return;
-            handler();
-        });
-    }
-    renderMessage(message = this._errorMessage) {
-        const markup = ` <div class="message">
-    <p class="no-click-text">${message}</p>
-</div>`;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    _generateMarkup() {
-        return `    <!---------- FOOD IMAGE ------------->
-    <div class="recipe-banner-container">
-        <!-- Recipe image background -->
-        <img src="${this._data.image}" alt="food-sample2" class="recipe-banner-image">
-
-        <div class="recipe-name-container">
-            <p class="recipe-name">${this._data.title}</p>
-        </div>
-    </div>
-
-    <!-- recipe ingredients and buttons  -->
-    <main class="main-content">
-
-        <!----- RECIPE INGREDIENT ------>
-        <div class="recipe-ingredients-container ">
-            <!-- recipe ingredients title -->
-            <p class="recipe-ingredients-title">RECIPE INGREDIENTS</p>
-
-            <!-- recipe ingredients list -->
-            <div class="recipe-ingredients-container-list">
-                <ul>
-                  ${this._data.ingredients.map((ingredients)=>{
-            return `<li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>${!ingredients.quantity ? "" : fracty(ingredients.quantity).toString()}
-                      ${ingredients.unit} ${ingredients.description}</li>`;
-        }).join(" ")}
-
-                </ul>
-            </div>
-        </div>
-
-        <!-- add to shopping list button -->
-        <div class="add-shopping-list-container">
-            <button class="add-shopping-list-button">${this._data.addedToList ? "Added to shopping list" : "Add to shopping list "}<img src=${this._data.addedToList ? "added-to-shop-list.png" : "btn-cart-icon.269c297b.png"}
-                    alt="cart" class="btn-cart-icon"></button>
-        </div>
-
-        <!-- cooking minutes,servings,add bookmark  -->
-        <div class="recipe-cooking-minutes-container">
-            <p><img src="serving-time-icon.png" alt="serving-time-icon" class="serving-time-icon"><span
-                    class="serving-time"><b>${this._data.cookingTime}</b></span>Minutes</p>
-
-            <p><img src="serving-people-icon.png" alt="serving-people-icon"
-                    class="serving-people-icon"><span class="serving-people">${this._data.servings}</span> Serving
-                <button class="serving-button" data-update-to="${this._data.servings > 1 ? this._data.servings - 1 : this._data.servings}">-</button> 
-                <button class="serving-button" data-update-to="${this._data.servings + 1}">+</button>
-            </p>
-            <button class="btn-add-bookmark"><img src="add-to-bookmark${this._data.bookmarked ? "-fill" : ".50998a83"}.png"
-                    alt="add-to-bookmark-icon"></button>
-        </div>
-
-    </main>
-
-    <!-- How to cook it Section  -->
-    <section>
-        <div class="how-to-cook-section ">
-            <p class="how-to-cook-title">HOW TO COOK IT </p>
-            <p class="how-to-cook-text">This recipe was carefully designed and tested by <span>${this._data.publisher}</span>.
-                Please check out directions at
-                their
-                website.</p>
-                <a href="${this._data.sourceUrl}"><button class="how-to-cook-btn">
-                DIRECTIONS <img src="direction-right.png" alt="direction-right"
-                        class="direction-right"></button></a>
-
-        </div>
-    </section>
-  `;
-    }
-}
-exports.default = new RecipeView();
-
-},{"./documentView":"eKIBV","fracty":"hJO4d","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eKIBV":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-class DocumentView {
-    _data;
-    _clear() {
-        this._parentElement.innerHTML = "";
-    }
-    render(data) {
-        this._data = data;
-        const markup = this._generateMarkup();
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    update(data) {
-        this._data = data;
-        //generate the latest markup
-        const newMarkup = this._generateMarkup();
-        //create a virtual DOM, then select all element of 'newElement' as an ARRAY,
-        //same with the 'curElement'
-        const newDOM = document.createRange().createContextualFragment(newMarkup);
-        const newElements = Array.from(newDOM.querySelectorAll("*"));
-        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
-        /* loop through 'newElements' then compare with 'curElements' */ newElements.forEach((newEl, i)=>{
-            const curEl = curElements[i];
-            //update changed TEXT
-            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue !== "") // console.log(curEl);
-            curEl.innerHTML = newEl.innerHTML;
-            //udpate change ATTRIBUTE
-            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>{
-                curEl.setAttribute(attr.name, attr.value);
-            });
-        });
-    }
-    //add hide css
-    _addHide(element, classname) {
-        element.classList.add(classname);
-    // console.log(element);
-    }
-    //remove hide css
-    _removeHide(element, classname) {
-        element.classList.remove(classname);
-    }
-    //change body and html overflow y
-    _changeDocumentOverflow(action) {
-        document.querySelector("body").style.overflowY = action;
-        document.querySelector("html").style.overflowY = action;
-    }
-}
-exports.default = DocumentView;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"hJO4d":[function(require,module,exports) {
-// FRACTY CONVERTS DECIMAL NUMBERS TO FRACTIONS BY ASSUMING THAT TRAILING PATTERNS FROM 10^-2 CONTINUE TO REPEAT
-// The assumption is based on the most standard numbering conventions
-// e.g. 3.51 will convert to 3 51/100 while 3.511 will convert to 3 23/45
-// Throw any number up to 16 digits long at fracty and let fracy do the work.
-// If number is beyond 16 digits fracty will truncate at 15 digits to compensate for roundoff errors created in IEEE 754 Floating Point conversion.
-module.exports = function(number) {
-    let type;
-    if (number < 0) {
-        number = Math.abs(number);
-        type = "-";
-    } else type = "";
-    if (number === undefined) return `Your input was undefined.`;
-    if (isNaN(number)) return `"${number}" is not a number.`;
-    if (number == 9999999999999999) return `${type}9999999999999999`;
-    if (number > 9999999999999999) return `Too many digits in your integer to maintain IEEE 754 Floating Point conversion accuracy.`;
-    if (Number.isInteger(number)) return `${type}${number}`;
-    if (number < .000001) return "0";
-    const numberString = number.toString();
-    const entry = numberString.split(".");
-    let integer = entry[0];
-    let decimal;
-    if (decimal == "0" && integer !== "0") return integer;
-    else if (decimal == "0" && integer == "0") return "0";
-    else if (numberString.length >= 17) decimal = entry[1].slice(0, entry[1].length - 1);
-    else decimal = entry[1];
-    if (decimal == "99" && integer !== "0") return `${integer} 99/100`;
-    else if (decimal == "99" && integer == "0") return `99/100`;
-    else if (1 - parseFloat(`.${decimal}`) < .0011) decimal = "999";
-    if (decimal == undefined) return integer;
-    const decimalRev = decimal.split("").reverse().join(""); //Reverse the string to look for patterns.
-    const patternSearch = /^(\d+)\1{1,2}/; //This greedy regex matches the biggest pattern that starts at the beginning of the string (at the end, in the case of the reversed string). A lazy regex doesn't work because it only identifies subpatterns in cases where subpatterns exist (e.g. '88' in '388388388388'), thus pattern capture must be greedy.
-    let pattern = decimalRev.match(patternSearch); //If there's a pattern, it's full sequence is in [0] of this array and the single unit is in [1] but it may still need to be reduced further.
-    if (pattern && decimal.length > 2) {
-        let patternSequence = pattern[0].split("").reverse().join("");
-        let endPattern = pattern[1].split("").reverse().join("");
-        if (endPattern.length > 1) {
-            let endPatternArray = endPattern.split("");
-            let testSingleUnit = 1;
-            for(let i = 0; i < endPatternArray.length; i++)testSingleUnit /= endPatternArray[0] / endPatternArray[i];
-            if (testSingleUnit === 1) endPattern = endPatternArray[0];
-        }
-        if (endPattern.length > 1 && endPattern.length % 2 === 0) endPattern = parseInt(endPattern.slice(0, endPattern.length / 2), 10) - parseInt(endPattern.slice(endPattern.length / 2, endPattern.length), 10) === 0 ? endPattern.slice(0, endPattern.length / 2) : endPattern;
-        return yesRepeat(decimal, endPattern, patternSequence, integer, type); //Begin calculating the numerator and denominator for decimals that have a pattern.
-    } else return noRepeat(decimal, integer, type); //Begin calculating the numerator and denominator for decimals that don't have a pattern.
-};
-//IF THERE'S A TRAILING PATTERN FRACTY DIVIDES THE INPUT BY ONE SUBTRACTED FROM THE NEAREST BASE 10 NUMBER WITH NUMBER OF ZEROS EQUAL TO THE LENGTH OF THE REPEATED PATTERN (I.E. A SERIES OF 9'S) MULTIPLIED BY THE BASE 10 NUMBER GREATER THAN AND CLOSEST TO THE INPUT.
-function yesRepeat(decimal, endPattern, patternSequence, integer, type) {
-    const rep = true; //The numerator repeats.
-    const nonPatternLength = decimal.length - patternSequence.length >= 1 ? decimal.length - patternSequence.length : 1; //Does the length of the non pattern segment of the input = 0? If it does, that's incorrect since we know it must equal at least 1, otherwise it's the length of the decimal input minus the length of the full pattern.
-    const decimalMultiplier2 = Math.pow(10, nonPatternLength); //Second multiplier to use.
-    const float = parseFloat(`0.${decimal}`); //Convert the decimal input to a floating point number.
-    const decimalMultiplier1 = Math.pow(10, endPattern.length); //Find the right multiplier to use for both numerator and denominator, which will later have 1 subtracted from it in the case of the denominator.
-    const numerator = Math.round((float * decimalMultiplier1 - float) * Math.pow(10, nonPatternLength)); //Find the numerator to be used in calculating the fraction that contains a repeating trailing sequence.
-    const denominator = (decimalMultiplier1 - 1) * decimalMultiplier2; //Caluculate the denominator using the equation for repeating trailing sequences.
-    return reduce(numerator, denominator, integer, type, rep); //Further reduce the numerator and denominator.
-}
-//IF THERE'S NO TRAILING PATTERN FRACTY DIVIDES THE INPUT BY THE NEAREST BASE 10 INTEGER GREATER THAN THE NUMERATOR.
-function noRepeat(decimal, integer, type) {
-    const rep = false; //The numerator doesn't repeat.
-    const numerator = parseInt(decimal, 10); //Numerator begins as decimal input converted into an integer.
-    const denominator = Math.pow(10, decimal.length); //Denominator begins as 10 to the power of the length of the numerator.
-    return reduce(numerator, denominator, integer, type, rep); //Reduce the numerator and denominator.
-}
-//FRACTY REDUCES THE FRACTION.
-function reduce(numerator, denominator, integer, type, rep) {
-    const primeNumberArray = [
-        2,
-        3,
-        5
-    ]; //If the numerator isn't from a repeating decimal case, the initialized array of prime numbers will suffice to find the common denominators.
-    if (rep === true) {
-        for(let i = 3; i * i <= numerator; i += 2)if (numerator % i === 0) primeNumberArray.push(i);
-    }
-    let j = 0; //Initialize counter over the prime number array for the while loop.
-    let comDenom = 1; //Initialize the common denominator.
-    let num = numerator; //Initialize the numerator.
-    let den = denominator; //Initialize the denominator.
-    while(j <= primeNumberArray.length)if (num % primeNumberArray[j] === 0 && den % primeNumberArray[j] === 0) {
-        comDenom = comDenom * primeNumberArray[j];
-        num = num / primeNumberArray[j];
-        den = den / primeNumberArray[j];
-    } else j++;
-    return returnStrings(den, num, integer, type);
-}
-//FRACTY RETURNS THE REDUCED FRACTION AS A STRING.
-function returnStrings(den, num, integer, type) {
-    if (den === 1 && num === 1) {
-        integer = `${type}${(parseInt(integer) + 1).toString()}`; //Add 1 to the integer and return a string without a fraction.
-        return `${integer}`;
-    } else if (num === 0) return `${type}${integer}`;
-    else if (integer == "0") return `${type}${num}/${den}`;
-    else return `${type}${integer} ${num}/${den}`; //If there's an integer and a fraction return both.
-}
-
-},{}],"kcflb":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _documentView = require("./documentView");
-var _documentViewDefault = parcelHelpers.interopDefault(_documentView);
-class SearchViewMobile extends (0, _documentViewDefault.default) {
-    _parentElement = document.querySelector(".search-mobile-parent");
-    _searchInput = this._parentElement.querySelector(".search-input-mobile");
-    _searchContainer = document.querySelector(".search-container ");
-    _leaveSearch = document.querySelector(".leave-search");
-    constructor(){
-        super();
-        this.leaveSearch();
-    }
-    getQuery() {
-        //get the input field value
-        const query = this._searchInput.value;
-        //clear the field
-        this._clearInput();
-        //return the input value
-        return query;
-    }
-    _clearInput() {
-        this._searchInput.value = "";
-    }
-    leaveSearchFunction() {
-        this._addHide(this._searchContainer, "hide");
-        this._changeDocumentOverflow("scroll");
-    }
-    leaveSearch() {
-        this._leaveSearch.addEventListener("click", this.leaveSearchFunction.bind(this));
-    }
-    _showSearchInputToolTip = function() {
-        const toolTipMobile = document.querySelector(".tooltip-mobile");
-        toolTipMobile.classList.toggle("hide");
-        setTimeout(()=>{
-            toolTipMobile.classList.toggle("hide");
-        }, "1000");
-    };
-    //pass the parent method as a parameter
-    addHandlerSearch(handler, addHide = this._addHide, changeDocuFlow = this._changeDocumentOverflow, searchContainer = this._searchContainer, searchValue = this._searchInput, showToolTip = this._showSearchInputToolTip) {
-        this._parentElement.addEventListener("submit", function(e) {
-            //prevent reloading the page
-            e.preventDefault();
-            if (searchValue.value === "") {
-                showToolTip();
-                return;
-            }
-            //run handler callback
-            handler();
-            //call addHide callback from parent class
-            addHide(searchContainer, "hide");
-            //call changeDocuFlow callback from parent class
-            changeDocuFlow("auto");
-        });
-    }
-}
-exports.default = new SearchViewMobile();
-
-},{"./documentView":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ck6qJ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _documentView = require("./documentView");
-var _documentViewDefault = parcelHelpers.interopDefault(_documentView);
-class navbarMobileActionView extends (0, _documentViewDefault.default) {
-    _parentElement = document.querySelector(".navbar-icon");
-    _searchContainer = document.querySelector(".search-container ");
-    _bookmarkContainer = document.querySelector(".bookmark-mobile-container");
-    _hamburgerContainer = document.querySelector(".hamburger-container");
-    _closeHamburger = document.querySelector(".close-hamburger");
-    _hamburgerChoices = document.querySelectorAll(".hamburger-choice");
-    _classChoice = [
-        "btn-search-home",
-        "btn-bookmark-home",
-        "btn-hamburger-home"
-    ];
-    _className = {
-        name: ""
-    };
-    constructor(){
-        super();
-        this.addHandlerClose();
-    }
-    getTargetClass() {
-        return this._classChoice.includes(this._className.name);
-    }
-    showNavabarAction() {
-        switch(this._className.name){
-            case this._classChoice[0]:
-                this._removeHide(this._searchContainer, "hide");
-                break;
-            case this._classChoice[1]:
-                this._removeHide(this._bookmarkContainer, "hide-container");
-                break;
-            case this._classChoice[2]:
-                this._removeHide(this._hamburgerContainer, "hide-container");
-                this._hamburgerChoices.forEach((choice)=>this._removeHide(choice, "hide-container-choice"));
-                break;
-        }
-        this._changeDocumentOverflow("hidden");
-    }
-    addHandlerNavbarAction(handler, storeClass = this._className) {
-        this._parentElement.addEventListener("click", function(e) {
-            storeClass.name = e.target.className;
-            handler();
-        });
-    }
-    _closeHamburgerFunction() {
-        this._addHide(this._hamburgerContainer, "hide-container");
-        this._hamburgerChoices.forEach((choice)=>this._addHide(choice, "hide-container-choice"));
-        this._changeDocumentOverflow("scroll");
-    }
-    addHandlerClose() {
-        this._closeHamburger.addEventListener("click", this._closeHamburgerFunction.bind(this));
-    }
-}
-exports.default = new navbarMobileActionView();
-
-},{"./documentView":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cSbZE":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _documentView = require("./documentView");
-var _documentViewDefault = parcelHelpers.interopDefault(_documentView);
-class ResultsView extends (0, _documentViewDefault.default) {
-    _parentElement = document.querySelector(".recipe-mobile-scroll-container");
-    _errorMessage = "No recipes found for your query! Please try again ";
-    constructor(){
-        super();
-        this.addHandlerScrollRecipeMobile();
-    }
-    renderMessage(message = this._errorMessage) {
-        const markup = ` <div class="recipe-result-message">
-    <p class="">⚠ ${message}</p>
-</div>`;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    renderSpinner() {
-        const markup = `<div class="recipe-spinner-container ">
-    <img src="spinner.svg" alt="spinner" class="recipe-spinner">
-</div>`;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    showParent() {
-        if (!this._parentElement.classList.contains("hide")) return;
-        this._parentElement.classList.remove("hide");
-    }
-    observer() {
-        const leftBtnScrollMobile = document.querySelector(".fa-chevron-left");
-        const rightBtnScrollMobile = document.querySelector(".fa-chevron-right");
-        const firstRecipeCallback = (entries)=>{
-            entries.forEach((entry)=>{
-                if (!entry.isIntersecting) leftBtnScrollMobile.classList.remove("hide");
-                else leftBtnScrollMobile.classList.add("hide");
-            });
-        };
-        const lastRecipeCallback = (entries)=>{
-            entries.forEach((entry)=>{
-                if (!entry.isIntersecting) rightBtnScrollMobile.classList.remove("hide");
-                else rightBtnScrollMobile.classList.add("hide");
-            });
-        };
-        const firstRecipeObserver = new IntersectionObserver(firstRecipeCallback, {
-            root: this._parentElement,
-            rootMargin: "4000px 0px 4000px 0px",
-            threshold: 0.2
-        });
-        const lastRecipeObserver = new IntersectionObserver(lastRecipeCallback, {
-            root: this._parentElement,
-            rootMargin: "4000px 0px 4000px 0px",
-            threshold: 0
-        });
-        const firstRecipeContainer = this._parentElement.children[2];
-        const lastRecipeContainer = this._parentElement.children[this._parentElement.children.length - 1];
-        firstRecipeObserver.observe(firstRecipeContainer);
-        lastRecipeObserver.observe(lastRecipeContainer);
-    }
-    _scrollRecipeMobile(e) {
-        const scrollContainerWidth = this._parentElement.offsetWidth;
-        if (e.target.classList.contains("fa-chevron-right")) this._recipeMobileScrollRight(screen.width);
-        else if (e.target.classList.contains("fa-chevron-left")) this._recipeMobileScrollLeft(screen.width);
-    }
-    addHandlerScrollRecipeMobile() {
-        this._parentElement.addEventListener("click", this._scrollRecipeMobile.bind(this));
-    }
-    _recipeMobileScrollRight = function(number) {
-        this._parentElement.scrollLeft += number;
-    };
-    _recipeMobileScrollLeft = function(number) {
-        this._parentElement.scrollLeft -= number;
-    };
-    _generateMarkup() {
-        const id = window.location.hash.slice(1);
-        let markup = `<i class="fa fa-solid fa-chevron-left "></i>
-    <i class="fa fa-solid fa-chevron-right"></i>`;
-        markup += this._data.map((recipe)=>{
-            return `<div class="recipe-container ${recipe.id === id ? "recipe-container-active" : ""}">
-      <a href="#${recipe.id}">
-          <p class="recipe-mobile-name">${recipe.title}</p>
-          <p class="recipe-mobile-site">${recipe.publisher}</p>
-          <img src="${recipe.image}" alt="" class="recipe-mobile-image">
-      </a>
-  
-  </div>`;
-        }).join("");
-        return markup;
-    }
-}
-exports.default = new ResultsView();
-
-},{"./documentView":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Lqzq":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _documentView = require("./documentView");
-var _documentViewDefault = parcelHelpers.interopDefault(_documentView);
-class BookmarksView extends (0, _documentViewDefault.default) {
-    _parentElement = document.querySelector(".bookmark-list-container");
-    _bookmarkMobileContainer = document.querySelector(".bookmark-mobile-container ");
-    _errorMessage = `<p class="no-bookmark">No bookmarks yet. Find a nice recipe and bookmark it :) </p>`;
-    renderMessage(message = this._errorMessage) {
-        const markup = ` <div class="recipe-result-message">
-    <p class="">${message}</p>
-</div>`;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    addHandlerRender(handler) {
-        window.addEventListener("load", handler);
-    }
-    addHandlerBookmarkMobileAction(handler, addHide = this._addHide, changeDocuFlow = this._changeDocumentOverflow) {
-        this._bookmarkMobileContainer.addEventListener("click", function(e) {
-            const btn = e.target;
-            //if delete is clicked
-            if (btn.className === "delete-bookmark") {
-                btn.closest("div").style.transition = "300ms ease-in-out";
-                btn.closest("div").style.transform = "translateX(-30rem)";
-                //get the recipe href then get the postition of '#'
-                const position = btn.closest("a").href.search("#");
-                //get the id
-                const id = btn.closest("a").href.slice(position + 1);
-                setTimeout(()=>{
-                    handler(id);
-                }, 700);
-                return;
-            }
-            //Recipe is clicked or close bookmark
-            if (btn.closest(".bookmark-list") || btn.className === "close-bookmark-mobile") {
-                addHide(this, "hide-container");
-                changeDocuFlow("scroll");
-            }
-        });
-    }
-    _generateMarkup() {
-        const id = window.location.hash.slice(1);
-        const markup = this._data.map((recipe)=>{
-            return `
-        <div class="bookmark-list ${recipe.id === id ? "recipe-container-active" : ""}">
-        <a href="#${recipe.id}">
-         <img src="delete-bookmark.0dd1b387.png" alt="delete-bookmark" class="delete-bookmark">
-         <img src="${recipe.image}" alt="food-sample" class="bookmark-food-sample">
-        <p class="recipe-name">${recipe.title}</p>
-        <p class="recipe-site">${recipe.publisher}</p>
-         </a>
-        </div>
-            `;
-        }).join("");
-        return markup;
-    }
-}
-exports.default = new BookmarksView();
-
-},{"./documentView":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kVLce":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _documentView = require("./documentView");
-var _documentViewDefault = parcelHelpers.interopDefault(_documentView);
-class AddRecipeMobileView extends (0, _documentViewDefault.default) {
-    _parentElement = document.querySelector(".add-recipe-container");
-    _hamburgerParent = document.querySelector(".hamburger-container");
-    _ingredientsContainer = document.querySelector(".ingredients-container");
-    _controlIngredientsContainer = document.querySelector(".control-ingredient-container");
-    _btnOpen = document.querySelector(".add-recipe");
-    _form = document.querySelector(".add-recipe-form");
-    _btnBack = document.querySelector(".leave-add-recipe-icon");
-    _btnClose = document.querySelector(".close-add-recipe-mobile");
-    constructor(){
-        super();
-        this.addHandlerToggleParent();
-        this.addHandlerClose();
-    }
-    renderInputBorderData() {
-        const collection = Object.entries(this._form.querySelectorAll("input")).slice(0, 6);
-        collection.forEach((element)=>{
-            element[1].style.border = ".1px solid #595959";
-            element[1].placeholder = "Please input some data";
-        });
-    }
-    renderSpinner() {
-        const markup = `    <div class="add-recipe-spinner-container">
-    <div class="recipe-spinner-container ">
-        <img src="add-recipe-spinner.svg" alt="spinner" class="add-recipe-spinner">
-    </div>
-</div>`;
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    showMessage(message) {
-        //remove spinner first
-        const spinner = this._parentElement.querySelector(".add-recipe-spinner-container");
-        if (spinner) spinner.remove();
-        //show Message
-        const messageContainer = this._parentElement.querySelector(".add-recipe-message-container");
-        messageContainer.innerHTML = "";
-        messageContainer.innerHTML = `<p>${message}</p>`;
-        messageContainer.classList.add("show-add-recipe-message");
-        //remove Message
-        setTimeout(()=>{
-            messageContainer.classList.remove("show-add-recipe-message");
-        }, 1500);
-    }
-    closeAddRecipeForm() {
-        setTimeout(()=>{
-            this._addHide(this._parentElement, "hide-container");
-            this._addHide(this._hamburgerParent, "hide-container");
-            this._form.reset();
-        }, 600);
-    }
-    renderInputBorderIngredients() {
-        const collection = Object.entries(this._form.querySelectorAll("input")).slice(6);
-        collection.forEach((element)=>{
-            element[1].style.border = ".1px solid #595959";
-        });
-    }
-    renderErrorUploadData(emptyData) {
-        emptyData.forEach((element)=>{
-            document.getElementById(element).style.border = "1px solid red";
-        });
-    }
-    renderErrorURL(invalidURL) {
-        invalidURL.forEach((element)=>{
-            // document.getElementsByName(element[0]).style.border = "1px solid red";
-            document.getElementById(element[0]).style.border = "1px solid red";
-        });
-    }
-    renderErrorFormatIng(wrongIng) {
-        wrongIng.forEach((element)=>{
-            const replacedElement = element.replace("-", "");
-            document.getElementById(replacedElement).style.border = "1px solid red";
-        });
-    }
-    _toggleParent() {
-        this._parentElement.classList.toggle("hide-container");
-    }
-    _toggleParentandHamburger() {
-        this._parentElement.classList.toggle("hide-container");
-        this._hamburgerParent.classList.toggle("hide-container");
-        this._changeDocumentOverflow("scroll");
-    }
-    addHandlerToggleParent() {
-        this._btnOpen.addEventListener("click", this._toggleParent.bind(this));
-        this._btnBack.addEventListener("click", this._toggleParent.bind(this));
-    }
-    addHandlerClose() {
-        this._btnClose.addEventListener("click", this._toggleParentandHamburger.bind(this));
-    }
-    addHandlerUpload(handler) {
-        this._form.addEventListener("submit", function(e) {
-            e.preventDefault();
-            const dataArr = [
-                ...new FormData(this)
-            ];
-            const data = Object.fromEntries(dataArr);
-            handler(data);
-        });
-    }
-    renderDeleteIngredientBtn(control) {
-        const deleteBtn = this._controlIngredientsContainer.querySelector(".delete-ingredients");
-        if (control === "show") {
-            if (!deleteBtn.classList.contains("hide")) return;
-            deleteBtn.classList.remove("hide");
-        }
-        if (control === "hide") deleteBtn.classList.add("hide");
-    }
-    renderAddIngredients(number) {
-        const markup = ` <div class="input-container">
-    <label for="ingredient${number}">Ingredient ${number}</label>
-    <input type="text" id="ingredient${number}" name="ingredient-${number}">
-</div>
-`;
-        this._ingredientsContainer.insertAdjacentHTML("beforeend", markup);
-    }
-    renderDeleteIngredients() {
-        this._ingredientsContainer.lastElementChild.remove();
-    }
-    addHandlerControlIngredients(handler) {
-        this._controlIngredientsContainer.addEventListener("click", function(e) {
-            if (!e.target.classList.contains("control-ingredients")) return;
-            if (e.target.classList.contains("add-ingredients")) handler("add");
-            if (e.target.classList.contains("delete-ingredients")) handler("delete");
-        });
-    }
-}
-exports.default = new AddRecipeMobileView();
-
-},{"./documentView":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cLljg":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _documentView = require("./documentView");
-var _documentViewDefault = parcelHelpers.interopDefault(_documentView);
-const fracty = require("fracty");
-class shoppingListMobileView extends (0, _documentViewDefault.default) {
-    _parentElement = document.querySelector(".shopping-list-container");
-    _hamburgerParent = document.querySelector(".hamburger-container");
-    _shoppingListkMobileContainer = document.querySelector(".shopping-list-section");
-    _btnClose = document.querySelector(".close-shopping-list-mobile");
-    _btnOpen = document.querySelector(".shopping-list-mobile");
-    _btnBack = document.querySelector(".leave-shopping-list-icon");
-    _errorMessage = `<p class="no-bookmark">Nothing on the list yet. Find a nice recipe and add it to list. :) </p>`;
-    constructor(){
-        super();
-        this.addHandlerToggleContainer();
-        this.addHandlerClose();
-    }
-    renderMessage(message = this._errorMessage) {
-        const markup = ` <div class="recipe-result-message">
-    <p class="">${message}</p>
-</div>`;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    _toggleContainer() {
-        this._shoppingListkMobileContainer.classList.toggle("hide-container");
-    }
-    _toggleContainerandHamburger() {
-        this._shoppingListkMobileContainer.classList.toggle("hide-container");
-        this._hamburgerParent.classList.toggle("hide-container");
-        this._changeDocumentOverflow("scroll");
-    }
-    //handler for shopping list btn
-    addHandlerToggleContainer() {
-        this._btnOpen.addEventListener("click", this._toggleContainer.bind(this));
-        this._btnBack.addEventListener("click", this._toggleContainer.bind(this));
-    }
-    addHandlerClose() {
-        this._btnClose.addEventListener("click", this._toggleContainerandHamburger.bind(this));
-    }
-    addHandlerRender(handler) {
-        window.addEventListener("load", handler);
-    }
-    addHandlerShoppingListMobileAction(handler) {
-        this._parentElement.addEventListener("click", function(e) {
-            const btn = e.target;
-            //if delete is clicked
-            if (btn.className === "mobile-delete-shopping-list") {
-                btn.closest("div").style.transition = "300ms ease-in-out";
-                btn.closest("div").style.transform = "translateX(-30rem)";
-                // //get the id
-                const id = btn.closest(".mobile-shopping-list").dataset.recipeid;
-                //call handler
-                setTimeout(()=>{
-                    handler(id);
-                }, 700);
-                // return;
-                return;
-            }
-            //Recipe is clicked or close bookmark, show ingredients
-            if (btn.closest(".mobile-shopping-list")) btn.closest(".mobile-shopping-list").nextElementSibling.classList.toggle("hide");
-            //if checkbox is clicked
-            if (btn.className == "ingredients-checkbox") btn.nextElementSibling.classList.toggle("ingredients-linethrough");
-        });
-    }
-    _generateMarkup() {
-        const sample = this._data.map((recipe1)=>{
-            return `<div class="mobile-shopping-list" data-recipeid="${recipe1.id}">
-        <img src="delete-bookmark.0dd1b387.png" alt="delete-bookmark" class="mobile-delete-shopping-list">
-        <img src="${recipe1.image}" alt="food-sample" class="mobile-shopping-list-food-sample">
-        <p class="recipe-name">${recipe1.title}</p>
-        <p class="recipe-site">${recipe1.publisher}</p>
-    </div>
-
-    <div class="mobile-ingeredients-list-container hide">
-    <ul>
-        ${recipe1.ingredients.map((recipe)=>{
-                return ` <li><input type="checkbox" class="ingredients-checkbox">
-          <label for="scales" class="ingredients-name">${!recipe.quantity ? "" : fracty(recipe.quantity).toString()} ${recipe.unit} ${recipe.description}</label>
-      </li>`;
-            }).join("")}
-       
-    </ul>
-</div>
-    `;
-        }).join("");
-        return sample;
-    }
-}
-exports.default = new shoppingListMobileView();
-
-},{"./documentView":"eKIBV","fracty":"hJO4d","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"Y4A21":[function(require,module,exports) {
+},{"./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchViewMobile.js":"kcflb","./views/navbarMobileActionView.js":"ck6qJ","./views/resultsView.js":"cSbZE","./views/bookmarksView.js":"4Lqzq","./views/addRecipeMobileView.js":"kVLce","./views/shoppingListMobileView.js":"cLljg","../../node_modules/lodash":"3qBDj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"Y4A21":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
@@ -1909,12 +1109,42 @@ const TIMEOUT_SEC = 5;
 const API_KEY = "80ec3dae-8941-41c9-ac4d-b763bd829351";
 const ING_COUNT = 6;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getJSON", ()=>getJSON);
 parcelHelpers.export(exports, "sendJSON", ()=>sendJSON);
-var _config = require("./config");
+var _configJs = require("./config.js");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
         setTimeout(function() {
@@ -1926,7 +1156,7 @@ const getJSON = async function(url) {
     try {
         const response = await Promise.race([
             fetch(url),
-            timeout((0, _config.TIMEOUT_SEC))
+            timeout((0, _configJs.TIMEOUT_SEC))
         ]);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
@@ -1952,7 +1182,7 @@ const sendJSON = async function(url, uploadData) {
         //------------------
         const response = await Promise.race([
             fetchPro,
-            timeout((0, _config.TIMEOUT_SEC))
+            timeout((0, _configJs.TIMEOUT_SEC))
         ]);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
@@ -1962,7 +1192,782 @@ const sendJSON = async function(url, uploadData) {
     }
 };
 
-},{"./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3qBDj":[function(require,module,exports) {
+},{"./config.js":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _documentViewJs = require("./documentView.js");
+var _documentViewJsDefault = parcelHelpers.interopDefault(_documentViewJs);
+const fracty = require("fracty");
+class RecipeView extends (0, _documentViewJsDefault.default) {
+    _parentElement = document.querySelector("#parent-element");
+    _errorMessage = "We could not find that recipe. Please try another one!";
+    renderSpinner() {
+        const markup = `<div class="spinner-container">
+    <img src="spinner.svg" alt="spinner" class="spinner">
+</div>`;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    addHandlerRender(handler) {
+        //listen for hashchange and load in url
+        [
+            "hashchange",
+            "load"
+        ].forEach((el)=>{
+            window.addEventListener(el, handler);
+        });
+    }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".serving-button");
+            //guard clause
+            if (!btn) return;
+            const updateTo = +btn.dataset.updateTo;
+            handler(updateTo);
+        });
+    }
+    addHandlerBookmark(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn-add-bookmark");
+            if (!btn) return;
+            handler();
+        });
+    }
+    addHandlerShoppingList(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".add-shopping-list-button");
+            if (!btn) return;
+            handler();
+        });
+    }
+    renderMessage(message = this._errorMessage) {
+        const markup = ` <div class="message">
+    <p class="no-click-text">${message}</p>
+</div>`;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    _generateMarkup() {
+        return `    <!---------- FOOD IMAGE ------------->
+    <div class="recipe-banner-container">
+        <!-- Recipe image background -->
+        <img src="${this._data.image}" alt="food-sample2" class="recipe-banner-image">
+
+        <div class="recipe-name-container">
+            <p class="recipe-name">${this._data.title}</p>
+        </div>
+    </div>
+
+    <!-- recipe ingredients and buttons  -->
+    <main class="main-content">
+
+        <!----- RECIPE INGREDIENT ------>
+        <div class="recipe-ingredients-container ">
+            <!-- recipe ingredients title -->
+            <p class="recipe-ingredients-title">RECIPE INGREDIENTS</p>
+
+            <!-- recipe ingredients list -->
+            <div class="recipe-ingredients-container-list">
+                <ul>
+                  ${this._data.ingredients.map((ingredients)=>{
+            return `<li class="recipe-ingredients-list"><i class="fa fa-solid fa-check"></i>${!ingredients.quantity ? "" : fracty(ingredients.quantity).toString()}
+                      ${ingredients.unit} ${ingredients.description}</li>`;
+        }).join(" ")}
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- add to shopping list button -->
+        <div class="add-shopping-list-container">
+            <button class="add-shopping-list-button">${this._data.addedToList ? "Added to shopping list" : "Add to shopping list "}<img src=${this._data.addedToList ? "added-to-shop-list.png" : "btn-cart-icon.269c297b.png"}
+                    alt="cart" class="btn-cart-icon"></button>
+        </div>
+
+        <!-- cooking minutes,servings,add bookmark  -->
+        <div class="recipe-cooking-minutes-container">
+            <p><img src="serving-time-icon.png" alt="serving-time-icon" class="serving-time-icon"><span
+                    class="serving-time"><b>${this._data.cookingTime}</b></span>Minutes</p>
+
+            <p><img src="serving-people-icon.png" alt="serving-people-icon"
+                    class="serving-people-icon"><span class="serving-people">${this._data.servings}</span> Serving
+                <button class="serving-button" data-update-to="${this._data.servings > 1 ? this._data.servings - 1 : this._data.servings}">-</button> 
+                <button class="serving-button" data-update-to="${this._data.servings + 1}">+</button>
+            </p>
+            <button class="btn-add-bookmark"><img src="add-to-bookmark${this._data.bookmarked ? "-fill" : ".50998a83"}.png"
+                    alt="add-to-bookmark-icon"></button>
+        </div>
+
+    </main>
+
+    <!-- How to cook it Section  -->
+    <section>
+        <div class="how-to-cook-section ">
+            <p class="how-to-cook-title">HOW TO COOK IT </p>
+            <p class="how-to-cook-text">This recipe was carefully designed and tested by <span>${this._data.publisher}</span>.
+                Please check out directions at
+                their
+                website.</p>
+                <a href="${this._data.sourceUrl}"><button class="how-to-cook-btn">
+                DIRECTIONS <img src="direction-right.png" alt="direction-right"
+                        class="direction-right"></button></a>
+
+        </div>
+    </section>
+  `;
+    }
+}
+exports.default = new RecipeView();
+
+},{"./documentView.js":"eKIBV","fracty":"hJO4d","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eKIBV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class DocumentView {
+    _data;
+    _clear() {
+        this._parentElement.innerHTML = "";
+    }
+    render(data) {
+        this._data = data;
+        const markup = this._generateMarkup();
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    update(data) {
+        this._data = data;
+        //generate the latest markup
+        const newMarkup = this._generateMarkup();
+        //create a virtual DOM, then select all element of 'newElement' as an ARRAY,
+        //same with the 'curElement'
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        const curElements = Array.from(this._parentElement.querySelectorAll("*"));
+        /* loop through 'newElements' then compare with 'curElements' */ newElements.forEach((newEl, i)=>{
+            const curEl = curElements[i];
+            //update changed TEXT
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue !== "") // console.log(curEl);
+            curEl.innerHTML = newEl.innerHTML;
+            //udpate change ATTRIBUTE
+            if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach((attr)=>{
+                curEl.setAttribute(attr.name, attr.value);
+            });
+        });
+    }
+    //add hide css
+    _addHide(element, classname) {
+        element.classList.add(classname);
+    // console.log(element);
+    }
+    //remove hide css
+    _removeHide(element, classname) {
+        element.classList.remove(classname);
+    }
+    //change body and html overflow y
+    _changeDocumentOverflow(action) {
+        document.querySelector("body").style.overflowY = action;
+        document.querySelector("html").style.overflowY = action;
+    }
+}
+exports.default = DocumentView;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hJO4d":[function(require,module,exports) {
+// FRACTY CONVERTS DECIMAL NUMBERS TO FRACTIONS BY ASSUMING THAT TRAILING PATTERNS FROM 10^-2 CONTINUE TO REPEAT
+// The assumption is based on the most standard numbering conventions
+// e.g. 3.51 will convert to 3 51/100 while 3.511 will convert to 3 23/45
+// Throw any number up to 16 digits long at fracty and let fracy do the work.
+// If number is beyond 16 digits fracty will truncate at 15 digits to compensate for roundoff errors created in IEEE 754 Floating Point conversion.
+module.exports = function(number) {
+    let type;
+    if (number < 0) {
+        number = Math.abs(number);
+        type = "-";
+    } else type = "";
+    if (number === undefined) return `Your input was undefined.`;
+    if (isNaN(number)) return `"${number}" is not a number.`;
+    if (number == 9999999999999999) return `${type}9999999999999999`;
+    if (number > 9999999999999999) return `Too many digits in your integer to maintain IEEE 754 Floating Point conversion accuracy.`;
+    if (Number.isInteger(number)) return `${type}${number}`;
+    if (number < .000001) return "0";
+    const numberString = number.toString();
+    const entry = numberString.split(".");
+    let integer = entry[0];
+    let decimal;
+    if (decimal == "0" && integer !== "0") return integer;
+    else if (decimal == "0" && integer == "0") return "0";
+    else if (numberString.length >= 17) decimal = entry[1].slice(0, entry[1].length - 1);
+    else decimal = entry[1];
+    if (decimal == "99" && integer !== "0") return `${integer} 99/100`;
+    else if (decimal == "99" && integer == "0") return `99/100`;
+    else if (1 - parseFloat(`.${decimal}`) < .0011) decimal = "999";
+    if (decimal == undefined) return integer;
+    const decimalRev = decimal.split("").reverse().join(""); //Reverse the string to look for patterns.
+    const patternSearch = /^(\d+)\1{1,2}/; //This greedy regex matches the biggest pattern that starts at the beginning of the string (at the end, in the case of the reversed string). A lazy regex doesn't work because it only identifies subpatterns in cases where subpatterns exist (e.g. '88' in '388388388388'), thus pattern capture must be greedy.
+    let pattern = decimalRev.match(patternSearch); //If there's a pattern, it's full sequence is in [0] of this array and the single unit is in [1] but it may still need to be reduced further.
+    if (pattern && decimal.length > 2) {
+        let patternSequence = pattern[0].split("").reverse().join("");
+        let endPattern = pattern[1].split("").reverse().join("");
+        if (endPattern.length > 1) {
+            let endPatternArray = endPattern.split("");
+            let testSingleUnit = 1;
+            for(let i = 0; i < endPatternArray.length; i++)testSingleUnit /= endPatternArray[0] / endPatternArray[i];
+            if (testSingleUnit === 1) endPattern = endPatternArray[0];
+        }
+        if (endPattern.length > 1 && endPattern.length % 2 === 0) endPattern = parseInt(endPattern.slice(0, endPattern.length / 2), 10) - parseInt(endPattern.slice(endPattern.length / 2, endPattern.length), 10) === 0 ? endPattern.slice(0, endPattern.length / 2) : endPattern;
+        return yesRepeat(decimal, endPattern, patternSequence, integer, type); //Begin calculating the numerator and denominator for decimals that have a pattern.
+    } else return noRepeat(decimal, integer, type); //Begin calculating the numerator and denominator for decimals that don't have a pattern.
+};
+//IF THERE'S A TRAILING PATTERN FRACTY DIVIDES THE INPUT BY ONE SUBTRACTED FROM THE NEAREST BASE 10 NUMBER WITH NUMBER OF ZEROS EQUAL TO THE LENGTH OF THE REPEATED PATTERN (I.E. A SERIES OF 9'S) MULTIPLIED BY THE BASE 10 NUMBER GREATER THAN AND CLOSEST TO THE INPUT.
+function yesRepeat(decimal, endPattern, patternSequence, integer, type) {
+    const rep = true; //The numerator repeats.
+    const nonPatternLength = decimal.length - patternSequence.length >= 1 ? decimal.length - patternSequence.length : 1; //Does the length of the non pattern segment of the input = 0? If it does, that's incorrect since we know it must equal at least 1, otherwise it's the length of the decimal input minus the length of the full pattern.
+    const decimalMultiplier2 = Math.pow(10, nonPatternLength); //Second multiplier to use.
+    const float = parseFloat(`0.${decimal}`); //Convert the decimal input to a floating point number.
+    const decimalMultiplier1 = Math.pow(10, endPattern.length); //Find the right multiplier to use for both numerator and denominator, which will later have 1 subtracted from it in the case of the denominator.
+    const numerator = Math.round((float * decimalMultiplier1 - float) * Math.pow(10, nonPatternLength)); //Find the numerator to be used in calculating the fraction that contains a repeating trailing sequence.
+    const denominator = (decimalMultiplier1 - 1) * decimalMultiplier2; //Caluculate the denominator using the equation for repeating trailing sequences.
+    return reduce(numerator, denominator, integer, type, rep); //Further reduce the numerator and denominator.
+}
+//IF THERE'S NO TRAILING PATTERN FRACTY DIVIDES THE INPUT BY THE NEAREST BASE 10 INTEGER GREATER THAN THE NUMERATOR.
+function noRepeat(decimal, integer, type) {
+    const rep = false; //The numerator doesn't repeat.
+    const numerator = parseInt(decimal, 10); //Numerator begins as decimal input converted into an integer.
+    const denominator = Math.pow(10, decimal.length); //Denominator begins as 10 to the power of the length of the numerator.
+    return reduce(numerator, denominator, integer, type, rep); //Reduce the numerator and denominator.
+}
+//FRACTY REDUCES THE FRACTION.
+function reduce(numerator, denominator, integer, type, rep) {
+    const primeNumberArray = [
+        2,
+        3,
+        5
+    ]; //If the numerator isn't from a repeating decimal case, the initialized array of prime numbers will suffice to find the common denominators.
+    if (rep === true) {
+        for(let i = 3; i * i <= numerator; i += 2)if (numerator % i === 0) primeNumberArray.push(i);
+    }
+    let j = 0; //Initialize counter over the prime number array for the while loop.
+    let comDenom = 1; //Initialize the common denominator.
+    let num = numerator; //Initialize the numerator.
+    let den = denominator; //Initialize the denominator.
+    while(j <= primeNumberArray.length)if (num % primeNumberArray[j] === 0 && den % primeNumberArray[j] === 0) {
+        comDenom = comDenom * primeNumberArray[j];
+        num = num / primeNumberArray[j];
+        den = den / primeNumberArray[j];
+    } else j++;
+    return returnStrings(den, num, integer, type);
+}
+//FRACTY RETURNS THE REDUCED FRACTION AS A STRING.
+function returnStrings(den, num, integer, type) {
+    if (den === 1 && num === 1) {
+        integer = `${type}${(parseInt(integer) + 1).toString()}`; //Add 1 to the integer and return a string without a fraction.
+        return `${integer}`;
+    } else if (num === 0) return `${type}${integer}`;
+    else if (integer == "0") return `${type}${num}/${den}`;
+    else return `${type}${integer} ${num}/${den}`; //If there's an integer and a fraction return both.
+}
+
+},{}],"kcflb":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _documentViewJs = require("./documentView.js");
+var _documentViewJsDefault = parcelHelpers.interopDefault(_documentViewJs);
+class SearchViewMobile extends (0, _documentViewJsDefault.default) {
+    _parentElement = document.querySelector(".search-mobile-parent");
+    _searchInput = this._parentElement.querySelector(".search-input-mobile");
+    _searchContainer = document.querySelector(".search-container ");
+    _leaveSearch = document.querySelector(".leave-search");
+    constructor(){
+        super();
+        this.leaveSearch();
+    }
+    getQuery() {
+        //get the input field value
+        const query = this._searchInput.value;
+        //clear the field
+        this._clearInput();
+        //return the input value
+        return query;
+    }
+    _clearInput() {
+        this._searchInput.value = "";
+    }
+    leaveSearchFunction() {
+        this._addHide(this._searchContainer, "hide");
+        this._changeDocumentOverflow("scroll");
+    }
+    leaveSearch() {
+        this._leaveSearch.addEventListener("click", this.leaveSearchFunction.bind(this));
+    }
+    _showSearchInputToolTip = function() {
+        const toolTipMobile = document.querySelector(".tooltip-mobile");
+        toolTipMobile.classList.toggle("hide");
+        setTimeout(()=>{
+            toolTipMobile.classList.toggle("hide");
+        }, "1000");
+    };
+    //pass the parent method as a parameter
+    addHandlerSearch(handler, addHide = this._addHide, changeDocuFlow = this._changeDocumentOverflow, searchContainer = this._searchContainer, searchValue = this._searchInput, showToolTip = this._showSearchInputToolTip) {
+        this._parentElement.addEventListener("submit", function(e) {
+            //prevent reloading the page
+            e.preventDefault();
+            if (searchValue.value === "") {
+                showToolTip();
+                return;
+            }
+            //run handler callback
+            handler();
+            //call addHide callback from parent class
+            addHide(searchContainer, "hide");
+            //call changeDocuFlow callback from parent class
+            changeDocuFlow("auto");
+        });
+    }
+}
+exports.default = new SearchViewMobile();
+
+},{"./documentView.js":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ck6qJ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _documentViewJs = require("./documentView.js");
+var _documentViewJsDefault = parcelHelpers.interopDefault(_documentViewJs);
+class navbarMobileActionView extends (0, _documentViewJsDefault.default) {
+    _parentElement = document.querySelector(".navbar-icon");
+    _searchContainer = document.querySelector(".search-container ");
+    _bookmarkContainer = document.querySelector(".bookmark-mobile-container");
+    _hamburgerContainer = document.querySelector(".hamburger-container");
+    _closeHamburger = document.querySelector(".close-hamburger");
+    _hamburgerChoices = document.querySelectorAll(".hamburger-choice");
+    _classChoice = [
+        "btn-search-home",
+        "btn-bookmark-home",
+        "btn-hamburger-home"
+    ];
+    _className = {
+        name: ""
+    };
+    constructor(){
+        super();
+        this.addHandlerClose();
+    }
+    getTargetClass() {
+        return this._classChoice.includes(this._className.name);
+    }
+    showNavabarAction() {
+        switch(this._className.name){
+            case this._classChoice[0]:
+                this._removeHide(this._searchContainer, "hide");
+                break;
+            case this._classChoice[1]:
+                this._removeHide(this._bookmarkContainer, "hide-container");
+                break;
+            case this._classChoice[2]:
+                this._removeHide(this._hamburgerContainer, "hide-container");
+                this._hamburgerChoices.forEach((choice)=>this._removeHide(choice, "hide-container-choice"));
+                break;
+        }
+        this._changeDocumentOverflow("hidden");
+    }
+    addHandlerNavbarAction(handler, storeClass = this._className) {
+        this._parentElement.addEventListener("click", function(e) {
+            storeClass.name = e.target.className;
+            handler();
+        });
+    }
+    _closeHamburgerFunction() {
+        this._addHide(this._hamburgerContainer, "hide-container");
+        this._hamburgerChoices.forEach((choice)=>this._addHide(choice, "hide-container-choice"));
+        this._changeDocumentOverflow("scroll");
+    }
+    addHandlerClose() {
+        this._closeHamburger.addEventListener("click", this._closeHamburgerFunction.bind(this));
+    }
+}
+exports.default = new navbarMobileActionView();
+
+},{"./documentView.js":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cSbZE":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _documentViewJs = require("./documentView.js");
+var _documentViewJsDefault = parcelHelpers.interopDefault(_documentViewJs);
+class ResultsView extends (0, _documentViewJsDefault.default) {
+    _parentElement = document.querySelector(".recipe-mobile-scroll-container");
+    _errorMessage = "No recipes found for your query! Please try again ";
+    constructor(){
+        super();
+        this.addHandlerScrollRecipeMobile();
+    }
+    renderMessage(message = this._errorMessage) {
+        const markup = ` <div class="recipe-result-message">
+    <p class="">⚠ ${message}</p>
+</div>`;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderSpinner() {
+        const markup = `<div class="recipe-spinner-container ">
+    <img src="spinner.svg" alt="spinner" class="recipe-spinner">
+</div>`;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    showParent() {
+        if (!this._parentElement.classList.contains("hide")) return;
+        this._parentElement.classList.remove("hide");
+    }
+    observer() {
+        const leftBtnScrollMobile = document.querySelector(".left-container");
+        const rightBtnScrollMobile = document.querySelector(".right-container");
+        const firstRecipeCallback = (entries)=>{
+            entries.forEach((entry)=>{
+                if (!entry.isIntersecting) leftBtnScrollMobile.classList.remove("hide");
+                else leftBtnScrollMobile.classList.add("hide");
+            });
+        };
+        const lastRecipeCallback = (entries)=>{
+            entries.forEach((entry)=>{
+                if (!entry.isIntersecting) rightBtnScrollMobile.classList.remove("hide");
+                else rightBtnScrollMobile.classList.add("hide");
+            });
+        };
+        const firstRecipeObserver = new IntersectionObserver(firstRecipeCallback, {
+            root: this._parentElement,
+            rootMargin: "4000px 0px 4000px 0px",
+            threshold: 0.2
+        });
+        const lastRecipeObserver = new IntersectionObserver(lastRecipeCallback, {
+            root: this._parentElement,
+            rootMargin: "4000px 0px 4000px 0px",
+            threshold: 0
+        });
+        const firstRecipeContainer = this._parentElement.children[2];
+        const lastRecipeContainer = this._parentElement.children[this._parentElement.children.length - 1];
+        firstRecipeObserver.observe(firstRecipeContainer);
+        lastRecipeObserver.observe(lastRecipeContainer);
+    }
+    _scrollRecipeMobile(e) {
+        const scrollContainerWidth = this._parentElement.offsetWidth;
+        if (e.target.closest(".right-container")) this._recipeMobileScrollRight(screen.width);
+        else if (e.target.closest(".left-container")) this._recipeMobileScrollLeft(screen.width);
+    }
+    addHandlerScrollRecipeMobile() {
+        this._parentElement.addEventListener("click", this._scrollRecipeMobile.bind(this));
+    }
+    _recipeMobileScrollRight = function(number) {
+        this._parentElement.scrollLeft += number;
+    };
+    _recipeMobileScrollLeft = function(number) {
+        this._parentElement.scrollLeft -= number;
+    };
+    _generateMarkup() {
+        const id = window.location.hash.slice(1);
+        let markup = `<div class="fa-chevron-container left-container">
+        <i class="fa fa-solid fa-chevron-left "></i>
+    </div>
+
+    <div class="fa-chevron-container right-container">
+      <i class="fa fa-solid fa-chevron-right"></i>
+    </div>`;
+        markup += this._data.map((recipe)=>{
+            return `<div class="recipe-container ${recipe.id === id ? "recipe-container-active" : ""}">
+      <a href="#${recipe.id}">
+          <p class="recipe-mobile-name">${recipe.title}</p>
+          <p class="recipe-mobile-site">${recipe.publisher}</p>
+          <img src="${recipe.image}" alt="" class="recipe-mobile-image">
+      </a>
+  
+  </div>`;
+        }).join("");
+        return markup;
+    }
+}
+exports.default = new ResultsView();
+
+},{"./documentView.js":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Lqzq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _documentViewJs = require("./documentView.js");
+var _documentViewJsDefault = parcelHelpers.interopDefault(_documentViewJs);
+class BookmarksView extends (0, _documentViewJsDefault.default) {
+    _parentElement = document.querySelector(".bookmark-list-container");
+    _bookmarkMobileContainer = document.querySelector(".bookmark-mobile-container ");
+    _errorMessage = `<p class="no-bookmark">No bookmarks yet. Find a nice recipe and bookmark it :) </p>`;
+    renderMessage(message = this._errorMessage) {
+        const markup = ` <div class="recipe-result-message">
+    <p class="">${message}</p>
+</div>`;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    addHandlerRender(handler) {
+        window.addEventListener("load", handler);
+    }
+    addHandlerBookmarkMobileAction(handler, addHide = this._addHide, changeDocuFlow = this._changeDocumentOverflow) {
+        this._bookmarkMobileContainer.addEventListener("click", function(e) {
+            const btn = e.target;
+            //if delete is clicked
+            if (btn.className === "delete-bookmark") {
+                btn.closest("div").style.transition = "300ms ease-in-out";
+                btn.closest("div").style.transform = "translateX(-30rem)";
+                //get the recipe href then get the postition of '#'
+                const position = btn.closest("a").href.search("#");
+                //get the id
+                const id = btn.closest("a").href.slice(position + 1);
+                setTimeout(()=>{
+                    handler(id);
+                }, 700);
+                return;
+            }
+            //Recipe is clicked or close bookmark
+            if (btn.closest(".bookmark-list") || btn.className === "close-bookmark-mobile") {
+                addHide(this, "hide-container");
+                changeDocuFlow("scroll");
+            }
+        });
+    }
+    _generateMarkup() {
+        const id = window.location.hash.slice(1);
+        const markup = this._data.map((recipe)=>{
+            return `
+        <div class="bookmark-list ${recipe.id === id ? "recipe-container-active" : ""}">
+        <a href="#${recipe.id}">
+         <img src="delete-bookmark.0dd1b387.png" alt="delete-bookmark" class="delete-bookmark">
+         <img src="${recipe.image}" alt="food-sample" class="bookmark-food-sample">
+        <p class="recipe-name">${recipe.title}</p>
+        <p class="recipe-site">${recipe.publisher}</p>
+         </a>
+        </div>
+            `;
+        }).join("");
+        return markup;
+    }
+}
+exports.default = new BookmarksView();
+
+},{"./documentView.js":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kVLce":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _documentViewJs = require("./documentView.js");
+var _documentViewJsDefault = parcelHelpers.interopDefault(_documentViewJs);
+class AddRecipeMobileView extends (0, _documentViewJsDefault.default) {
+    _parentElement = document.querySelector(".add-recipe-container");
+    _hamburgerParent = document.querySelector(".hamburger-container");
+    _ingredientsContainer = document.querySelector(".ingredients-container");
+    _controlIngredientsContainer = document.querySelector(".control-ingredient-container");
+    _btnOpen = document.querySelector(".add-recipe");
+    _form = document.querySelector(".add-recipe-form");
+    _btnBack = document.querySelector(".leave-add-recipe-icon");
+    _btnClose = document.querySelector(".close-add-recipe-mobile");
+    constructor(){
+        super();
+        this.addHandlerToggleParent();
+        this.addHandlerClose();
+    }
+    renderInputBorderData() {
+        const collection = Object.entries(this._form.querySelectorAll("input")).slice(0, 6);
+        collection.forEach((element)=>{
+            element[1].style.border = ".1px solid #595959";
+            element[1].placeholder = "Please input some data";
+        });
+    }
+    renderSpinner() {
+        const markup = `    <div class="add-recipe-spinner-container">
+    <div class="recipe-spinner-container ">
+        <img src="add-recipe-spinner.svg" alt="spinner" class="add-recipe-spinner">
+    </div>
+</div>`;
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    showMessage(message) {
+        //remove spinner first
+        const spinner = this._parentElement.querySelector(".add-recipe-spinner-container");
+        if (spinner) spinner.remove();
+        //show Message
+        const messageContainer = this._parentElement.querySelector(".add-recipe-message-container");
+        messageContainer.innerHTML = "";
+        messageContainer.innerHTML = `<p>${message}</p>`;
+        messageContainer.classList.add("show-add-recipe-message");
+        //remove Message
+        setTimeout(()=>{
+            messageContainer.classList.remove("show-add-recipe-message");
+        }, 1500);
+    }
+    closeAddRecipeForm() {
+        setTimeout(()=>{
+            this._addHide(this._parentElement, "hide-container");
+            this._addHide(this._hamburgerParent, "hide-container");
+            this._form.reset();
+        }, 600);
+    }
+    renderInputBorderIngredients() {
+        const collection = Object.entries(this._form.querySelectorAll("input")).slice(6);
+        collection.forEach((element)=>{
+            element[1].style.border = ".1px solid #595959";
+        });
+    }
+    renderErrorUploadData(emptyData) {
+        emptyData.forEach((element)=>{
+            document.getElementById(element).style.border = "1px solid red";
+        });
+    }
+    renderErrorURL(invalidURL) {
+        invalidURL.forEach((element)=>{
+            // document.getElementsByName(element[0]).style.border = "1px solid red";
+            document.getElementById(element[0]).style.border = "1px solid red";
+        });
+    }
+    renderErrorFormatIng(wrongIng) {
+        wrongIng.forEach((element)=>{
+            const replacedElement = element.replace("-", "");
+            document.getElementById(replacedElement).style.border = "1px solid red";
+        });
+    }
+    _toggleParent() {
+        this._parentElement.classList.toggle("hide-container");
+    }
+    _toggleParentandHamburger() {
+        this._parentElement.classList.toggle("hide-container");
+        this._hamburgerParent.classList.toggle("hide-container");
+        this._changeDocumentOverflow("scroll");
+    }
+    addHandlerToggleParent() {
+        this._btnOpen.addEventListener("click", this._toggleParent.bind(this));
+        this._btnBack.addEventListener("click", this._toggleParent.bind(this));
+    }
+    addHandlerClose() {
+        this._btnClose.addEventListener("click", this._toggleParentandHamburger.bind(this));
+    }
+    addHandlerUpload(handler) {
+        this._form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const dataArr = [
+                ...new FormData(this)
+            ];
+            const data = Object.fromEntries(dataArr);
+            handler(data);
+        });
+    }
+    renderDeleteIngredientBtn(control) {
+        const deleteBtn = this._controlIngredientsContainer.querySelector(".delete-ingredients");
+        if (control === "show") {
+            if (!deleteBtn.classList.contains("hide")) return;
+            deleteBtn.classList.remove("hide");
+        }
+        if (control === "hide") deleteBtn.classList.add("hide");
+    }
+    renderAddIngredients(number) {
+        const markup = ` <div class="input-container">
+    <label for="ingredient${number}">Ingredient ${number}</label>
+    <input type="text" id="ingredient${number}" name="ingredient-${number}">
+</div>
+`;
+        this._ingredientsContainer.insertAdjacentHTML("beforeend", markup);
+    }
+    renderDeleteIngredients() {
+        this._ingredientsContainer.lastElementChild.remove();
+    }
+    addHandlerControlIngredients(handler) {
+        this._controlIngredientsContainer.addEventListener("click", function(e) {
+            if (!e.target.classList.contains("control-ingredients")) return;
+            if (e.target.classList.contains("add-ingredients")) handler("add");
+            if (e.target.classList.contains("delete-ingredients")) handler("delete");
+        });
+    }
+}
+exports.default = new AddRecipeMobileView();
+
+},{"./documentView.js":"eKIBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cLljg":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _documentViewJs = require("./documentView.js");
+var _documentViewJsDefault = parcelHelpers.interopDefault(_documentViewJs);
+const fracty = require("fracty");
+class shoppingListMobileView extends (0, _documentViewJsDefault.default) {
+    _parentElement = document.querySelector(".shopping-list-container");
+    _hamburgerParent = document.querySelector(".hamburger-container");
+    _shoppingListkMobileContainer = document.querySelector(".shopping-list-section");
+    _btnClose = document.querySelector(".close-shopping-list-mobile");
+    _btnOpen = document.querySelector(".shopping-list-mobile");
+    _btnBack = document.querySelector(".leave-shopping-list-icon");
+    _errorMessage = `<p class="no-bookmark">Nothing on the list yet. Find a nice recipe and add it to list. :) </p>`;
+    constructor(){
+        super();
+        this.addHandlerToggleContainer();
+        this.addHandlerClose();
+    }
+    renderMessage(message = this._errorMessage) {
+        const markup = ` <div class="recipe-result-message">
+    <p class="">${message}</p>
+</div>`;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    _toggleContainer() {
+        this._shoppingListkMobileContainer.classList.toggle("hide-container");
+    }
+    _toggleContainerandHamburger() {
+        this._shoppingListkMobileContainer.classList.toggle("hide-container");
+        this._hamburgerParent.classList.toggle("hide-container");
+        this._changeDocumentOverflow("scroll");
+    }
+    //handler for shopping list btn
+    addHandlerToggleContainer() {
+        this._btnOpen.addEventListener("click", this._toggleContainer.bind(this));
+        this._btnBack.addEventListener("click", this._toggleContainer.bind(this));
+    }
+    addHandlerClose() {
+        this._btnClose.addEventListener("click", this._toggleContainerandHamburger.bind(this));
+    }
+    addHandlerRender(handler) {
+        window.addEventListener("load", handler);
+    }
+    addHandlerShoppingListMobileAction(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target;
+            //if delete is clicked
+            if (btn.className === "mobile-delete-shopping-list") {
+                btn.closest("div").style.transition = "300ms ease-in-out";
+                btn.closest("div").style.transform = "translateX(-30rem)";
+                // //get the id
+                const id = btn.closest(".mobile-shopping-list").dataset.recipeid;
+                //call handler
+                setTimeout(()=>{
+                    handler(id);
+                }, 700);
+                // return;
+                return;
+            }
+            //Recipe is clicked or close bookmark, show ingredients
+            if (btn.closest(".mobile-shopping-list")) btn.closest(".mobile-shopping-list").nextElementSibling.classList.toggle("hide");
+            //if checkbox is clicked
+            if (btn.className == "ingredients-checkbox") btn.nextElementSibling.classList.toggle("ingredients-linethrough");
+        });
+    }
+    _generateMarkup() {
+        const sample = this._data.map((recipe1)=>{
+            return `<div class="mobile-shopping-list" data-recipeid="${recipe1.id}">
+        <img src="delete-bookmark.0dd1b387.png" alt="delete-bookmark" class="mobile-delete-shopping-list">
+        <img src="${recipe1.image}" alt="food-sample" class="mobile-shopping-list-food-sample">
+        <p class="recipe-name">${recipe1.title}</p>
+        <p class="recipe-site">${recipe1.publisher}</p>
+    </div>
+
+    <div class="mobile-ingeredients-list-container hide">
+    <ul>
+        ${recipe1.ingredients.map((recipe)=>{
+                return ` <li><input type="checkbox" class="ingredients-checkbox">
+          <label for="scales" class="ingredients-name">${!recipe.quantity ? "" : fracty(recipe.quantity).toString()} ${recipe.unit} ${recipe.description}</label>
+      </li>`;
+            }).join("")}
+       
+    </ul>
+</div>
+    `;
+        }).join("");
+        return sample;
+    }
+}
+exports.default = new shoppingListMobileView();
+
+},{"./documentView.js":"eKIBV","fracty":"hJO4d","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3qBDj":[function(require,module,exports) {
 var global = arguments[3];
 (function() {
     /** Used as a safe reference for `undefined` in pre-ES5 environments. */ var undefined;

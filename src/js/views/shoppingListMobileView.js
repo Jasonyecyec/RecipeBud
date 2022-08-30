@@ -1,4 +1,4 @@
-import DocumentView from "./documentView";
+import DocumentView from "./documentView.js";
 const fracty = require("fracty");
 
 class shoppingListMobileView extends DocumentView {

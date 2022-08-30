@@ -1,6 +1,6 @@
 const fracty = require("fracty");
 
-import DocumentView from "./documentView";
+import DocumentView from "./documentView.js";
 
 class RecipeView extends DocumentView {
   _parentElement = document.querySelector("#parent-element");

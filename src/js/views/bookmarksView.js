@@ -1,4 +1,4 @@
-import DocumentView from "./documentView";
+import DocumentView from "./documentView.js";
 
 class BookmarksView extends DocumentView {
   _parentElement = document.querySelector(".bookmark-list-container");

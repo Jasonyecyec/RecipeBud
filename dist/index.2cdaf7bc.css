@@ -60,7 +60,15 @@ html {
 .navbar-icon img {
   cursor: pointer;
   max-width: 1.5rem;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -khtml-user-select: none;
   margin: 0 .5rem;
+}
+
+.navbar-icon img:focus {
+  outline: none;
 }
 
 .navbar-icon img:active {
@@ -225,7 +233,7 @@ html {
   min-height: 18vh;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  grid-auto-columns: 35%;
+  grid-auto-columns: 12rem;
   grid-auto-flow: column;
   display: grid;
   overflow-x: scroll;
@@ -290,18 +298,24 @@ html {
 }
 
 .fa-chevron-right, .fa-chevron-left {
-  color: #9f9c99;
+  color: #535353;
+}
+
+.fa-chevron-container {
+  box-sizing: border-box;
+  background-color: #28361848;
+  padding: .5em;
   font-size: 1.5rem;
   position: absolute;
   top: 10%;
 }
 
-.fa-chevron-right, .fa-chevron-left:hover {
+.fa-chevron-container:hover {
   cursor: pointer;
 }
 
-.fa-chevron-right {
-  right: .3rem;
+.right-container {
+  right: 0;
 }
 
 .recipe-banner-container {
@@ -321,14 +335,20 @@ html {
 
 .recipe-name-container {
   box-sizing: border-box;
+  text-align: center;
   text-transform: uppercase;
+  max-width: 50%;
   color: var(--cream);
   background-color: #283618a0;
-  padding: 1em 2em;
+  padding: .8em;
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translate(-50%);
+}
+
+.recipe-name {
+  margin: 0;
 }
 
 .recipe-result-message {
@@ -375,10 +395,6 @@ html {
   .logo-brandname {
     padding-left: 2em;
   }
-
-  .fa-chevron-right, .fa-chevron-left {
-    top: 9%;
-  }
 }
 
 @media (min-width: 85.375em) {
@@ -394,10 +410,6 @@ html {
   .recipe-container:hover {
     background-color: var(--selected);
     transform: translateY(-2px);
-  }
-
-  .fa-chevron-right, .fa-chevron-left {
-    z-index: 10;
   }
 }
 
@@ -468,7 +480,7 @@ html {
   border-radius: 5em;
   align-items: center;
   margin-top: .5rem;
-  margin-left: 10rem;
+  margin-left: 9rem;
   padding: .8em 1.5em;
   font-family: Nunito Sans, sans-serif;
   display: flex;
@@ -689,6 +701,10 @@ html {
   align-items: center;
   padding: 1em;
   display: flex;
+}
+
+.how-to-cook-section a {
+  text-decoration: none;
 }
 
 .how-to-cook-title {
@@ -1132,9 +1148,9 @@ html {
   outline: none;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: .3rem;
   margin-right: 1rem;
-  padding: .5em .8em;
+  padding: .3em .6em;
   display: flex;
 }
 
@@ -1151,9 +1167,9 @@ html {
   outline: none;
   justify-content: center;
   align-items: center;
-  margin: 3rem auto auto;
-  padding: .5em 1.5em;
-  font-size: 1.3rem;
+  margin: 1rem auto auto;
+  padding: .5em 1em;
+  font-size: 1.2rem;
   font-weight: 650;
   display: flex;
 }
